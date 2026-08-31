@@ -19,7 +19,7 @@ import os from 'node:os'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import prompts from 'prompts'
-import { getTemplatesRoot } from '@/core/utils'
+import { getTemplatesRoot } from '@/generator/utils'
 import { QuestionPresets } from '@/types'
 import { THEME_IDS } from '@/constants'
 

@@ -64,7 +64,7 @@ export function renderTemplate(content: string, context: Record<string, unknown>
 /**
  * 计算 templates 目录的绝对路径。
  *
- * 编译后模板入口位于 dist/core/utils.js，templates 与 dist 同级（项目根目录），
+ * 编译后模板入口位于 dist/generator/utils.js，templates 与 dist 同级（包根目录），
  * 故需要向上回退两级。
  *
  * @returns templates 根目录绝对路径

@@ -1,20 +1,26 @@
 ---
 layout: home
 
+title: '@meng-xi/create-uni-app'
+titleTemplate: Create Uni App 脚手架 CLI
+
 hero:
-  name: create-uni-app
+  name: '@meng-xi/create-uni-app'
   text: 基于 uni-app 的交互式脚手架 CLI
   tagline: 通过命令行对话按需生成 uni-app 基础项目与可选能力，只产出你选中的内容。
+  image:
+    src: /logo.svg
+    alt: Create Uni App
   actions:
     - theme: brand
       text: 快速开始
-      link: /guide/quick-start
+      link: /guide/getting-started
     - theme: alt
-      text: 命令参考
-      link: /guide/cli
-  image:
-    src: /logo.svg
-    alt: create-uni-app
+      text: 了解更多
+      link: /guide/introduction
+    - theme: alt
+      text: GitHub
+      link: https://github.com/MengXi-Studio/create-uni-app
 
 features:
   - icon: 🧩
@@ -36,7 +42,3 @@ features:
     title: 配套命令
     details: create 建页（自动注册路由）、info 诊断、config 持久化模板源。
 ---
-
-<div class="tip" style="margin-top: 2rem; padding: 1rem 1.2rem; border-radius: 8px; background: var(--vp-c-bg-soft);">
-  📖 想了解各功能细节，请从左侧「指南」开始。
-</div>

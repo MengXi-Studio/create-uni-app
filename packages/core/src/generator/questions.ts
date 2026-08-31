@@ -11,7 +11,7 @@
 import prompts from 'prompts'
 import { CreateOptions, QuestionPresets, CssPreprocessor, PlatformChoice, StateManager, RouterScheme } from '@/types'
 import { Feature, Theme, ThemeOption } from '@/enums'
-import { normalizePackageName } from '@/core/utils'
+import { normalizePackageName } from '@/generator/utils'
 
 /** 提问结果的中间形态（字段可能缺失 / 类型未定） */
 type PartialAnswers = {
