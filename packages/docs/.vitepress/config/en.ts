@@ -36,6 +36,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 			{ text: 'Commands', link: '/en/guide/cli' },
 			{ text: 'Features', link: '/en/features/platforms' },
 			{ text: 'Templates', link: '/en/template/custom-template' },
+			{ text: 'Changelog', link: '/en/changelog' },
 			{
 				text: 'Links',
 				items: [
@@ -44,13 +45,14 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 						link: 'https://github.com/MengXi-Studio/create-uni-app/discussions'
 					},
 					{
-						text: 'Changelog',
+						text: 'Releases',
 						link: 'https://github.com/MengXi-Studio/create-uni-app/releases'
 					}
 				]
 			}
 		],
-		/** 网站主题配置 侧边栏（全站统一展示：Guide + Commands + Features + Templates） */
+
+		/** 网站主题配置 侧边栏（全站统一展示：Guide + Commands + Features + Templates + Project） */
 		sidebar: [
 			{
 				text: 'Guide',

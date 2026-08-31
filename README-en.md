@@ -20,6 +20,9 @@
 An **interactive scaffolding CLI** for [uni-app](https://uniapp.dcloud.net.cn/) powered by Vue3 + Vite. It walks you through a command-line dialogue to generate a uni-app project with only the capabilities you select —
 no extra files or dependencies.
 
+- 📖 [Full docs](../packages/docs) (VitePress docs site)
+- 📝 [View the changelog](../packages/docs/src/en/guide/changelog.md)
+
 ## Features
 
 - **Interactive creation**: project name → script language → CSS preprocessor → built-in theme → state management → router scheme → target platforms → optional features → package manager

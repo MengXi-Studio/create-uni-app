@@ -36,6 +36,7 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 			{ text: '命令', link: '/guide/cli' },
 			{ text: '功能', link: '/features/platforms' },
 			{ text: '模板', link: '/template/custom-template' },
+			{ text: '更新日志', link: '/changelog' },
 			{
 				text: '相关链接',
 				items: [
@@ -44,13 +45,14 @@ export const zhConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 						link: 'https://github.com/MengXi-Studio/create-uni-app/discussions'
 					},
 					{
-						text: '更新日志',
+						text: 'Releases',
 						link: 'https://github.com/MengXi-Studio/create-uni-app/releases'
 					}
 				]
 			}
 		],
-		/** 网站主题配置 侧边栏（全站统一展示：指南 + 命令 + 功能 + 自定义模板） */
+
+		/** 网站主题配置 侧边栏（全站统一展示：指南 + 命令 + 功能 + 自定义模板 + 项目） */
 		sidebar: [
 			{
 				text: '指南',
