@@ -1,0 +1,113 @@
+# 发布 @meng-xi/create-uni-app 到 npm（手动触发）
+name: Publish to npm
+
+on:
+  # 手动触发，可在 Actions 页面点击 Run workflow 执行
+  workflow_dispatch:
+    inputs:
+      # 是否跳过发布（仅构建校验）
+      skip_publish:
+        description: 'Skip publish (build only)'
+        required: false
+        default: false
+        type: boolean
+
+# 全局环境变量，所有步骤均可使用
+env:
+  NODE_VERSION: '24.14.0'
+  PNPM_VERSION: '10.31.0'
+  NPM_REGISTRY: 'https://registry.npmjs.org'
+  NPM_PACKAGE: '@meng-xi/create-uni-app'
+
+# GITHUB_TOKEN 权限声明（最小权限原则）
+permissions:
+  id-token: write # 允许生成 OIDC 令牌，Provenance 签名必需
+  contents: read  # 允许读取仓库代码
+
+jobs:
+  publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+    # 关联 GitHub Environment，必须与 npm Trusted Publisher 配置的 Environment 名称一致
+    environment: create-uni-app
+
+    steps:
+      # 步骤1：检出仓库代码（浅克隆以加速）
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # 步骤2：安装 pnpm 包管理器
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      # 步骤3：设置 Node.js 环境（含 npm 注册表与 pnpm 缓存）
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.NPM_REGISTRY }}
+          cache: pnpm
+
+      # 步骤4：严格按 lockfile 安装依赖
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 步骤5：构建 packages/core 核心包
+      - name: Build core package
+        run: pnpm --filter @meng-xi/create-uni-app build
+
+      # 步骤6：校验构建产物存在
+      - name: Verify build output
+        run: |
+          if [ ! -d "packages/core/dist" ]; then
+            echo "::error::Build output not found: packages/core/dist"
+            exit 1
+          fi
+
+      # 步骤7：检查版本号是否与 npm 已发布版本重复
+      - name: Check version
+        if: ${{ !inputs.skip_publish }}
+        id: version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./packages/core/package.json').version")
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+
+          PUBLISHED_VERSION=$(npm view ${{ env.NPM_PACKAGE }} version --registry ${{ env.NPM_REGISTRY }} 2>/dev/null || echo "none")
+          echo "published_version=$PUBLISHED_VERSION" >> $GITHUB_OUTPUT
+
+          if [ "$CURRENT_VERSION" = "$PUBLISHED_VERSION" ]; then
+            echo "should_publish=false" >> $GITHUB_OUTPUT
+          else
+            echo "should_publish=true" >> $GITHUB_OUTPUT
+          fi
+
+      # 步骤8：发布到 npm（OIDC 受信任发布者 + Provenance 签名）
+      - name: Publish to npm
+        if: ${{ !inputs.skip_publish && steps.version.outputs.should_publish == 'true' }}
+        run: npm publish --provenance --access public
+        working-directory: packages/core
+
+      # 步骤9：发布成功摘要
+      - name: Publish summary
+        if: ${{ !inputs.skip_publish && steps.version.outputs.should_publish == 'true' }}
+        run: |
+          echo "## 📦 Published ${{ env.NPM_PACKAGE }}@${{ steps.version.outputs.current_version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Version**: \`${{ steps.version.outputs.current_version }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Auth**: OIDC Trusted Publisher (tokenless)" >> $GITHUB_STEP_SUMMARY
+          echo "- **Provenance**: ✅ Signed with Sigstore" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: \`${{ github.sha }}\`" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: \`create-uni-app\`" >> $GITHUB_STEP_SUMMARY
+
+      # 步骤10：跳过发布摘要
+      - name: Skip publish summary
+        if: ${{ inputs.skip_publish || steps.version.outputs.should_publish != 'true' }}
+        run: |
+          echo "## ⏭️ Publish Skipped" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ inputs.skip_publish }}" = "true" ]; then
+            echo "- Reason: skip_publish enabled" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Reason: version ${{ steps.version.outputs.current_version }} already published" >> $GITHUB_STEP_SUMMARY
+          fi

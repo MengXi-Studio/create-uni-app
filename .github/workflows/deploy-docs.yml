@@ -1,0 +1,79 @@
+# 文档站部署到 GitHub Pages（自动 + 手动触发）
+name: Deploy Docs to GitHub Pages
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'packages/docs/**'
+      - .github/workflows/deploy-docs.yml
+  workflow_dispatch:
+
+# 环境版本，与仓库 .npmrc / package.json 保持一致
+env:
+  NODE_VERSION: '24.14.0'
+  PNPM_VERSION: '10.31.0'
+
+# GITHUB_TOKEN 最小权限：部署 GitHub Pages 所需
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 同一时间只允许一个 Pages 部署
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 检出代码（文档构建无需完整历史，浅克隆以加速）
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      # 安装 pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: ${{ env.PNPM_VERSION }}
+
+      # 设置 Node.js 环境，启用 pnpm 缓存
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: pnpm
+
+      # 配置 GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v6
+
+      # 严格按 lockfile 安装依赖，保证可复现
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 构建文档站（脚本名 docs:build）
+      # 部署基址默认 /create-uni-app/，如需覆盖可通过 DOCS_BASE 环境变量注入
+      - name: Build docs
+        run: pnpm run docs:build
+
+      # 上传构建产物
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v5
+        with:
+          path: ./packages/docs/.vitepress/dist
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    needs: build
+    runs-on: ubuntu-latest
+    name: Deploy
+    steps:
+      # 部署到 GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
