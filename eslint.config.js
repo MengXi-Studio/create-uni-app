@@ -19,6 +19,8 @@ export default defineConfig(
 			'**/node_modules/',
 			// 构建输出目录
 			'**/dist/',
+			'**/.vitepress/dist/',
+			'**/.vitepress/cache/',
 			// Git 目录
 			'.git/',
 			// 包管理锁文件

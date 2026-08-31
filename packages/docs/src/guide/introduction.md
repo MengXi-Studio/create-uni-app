@@ -1,33 +1,72 @@
-# 简介
+# 介绍
 
-`@mengxi/create-uni-app` 是基于 [uni-app](https://uniapp.dcloud.net.cn/) + Vue3 + Vite 的**交互式脚手架 CLI**。通过命令行对话按需生成 uni-app 基础项目与可选能力，只产出你选中的内容，不携带多余文件与依赖。
+`@meng-xi/create-uni-app` 是一个基于 [uni-app](https://uniapp.dcloud.net.cn/) + Vue3 + Vite 的**交互式脚手架 CLI**。你通过命令行对话完成选择，它按需生成一个只包含你所选能力的 uni-app 项目——不多不少。
 
-## 特性总览
+## 它是什么
 
-- **交互式创建**：项目名 → 脚本语言（TS / JS）→ CSS 预处理器 → 内置主题 → 状态管理 → 路由方案 → 目标平台 → 可选功能 → 包管理器 → 是否自动安装依赖
-- **多平台按需**：支持全部 15 个 uni-app 平台，提供「全部端 / 小程序(全部) / 快应用(全部)」分组快捷勾选
-- **TS / JS 可选**：TS 生成 `tsconfig.json` 并注入类型检查；JS 生成 `jsconfig.json`，两者互斥
-- **多套内置主题**：默认紫 / 清新蓝 / 自然绿 / 温暖橙，Sass / Less / Stylus / 原生 CSS 均可全局混入变量与 mixin
-- **状态管理**：Pinia / Vuex 二选一，均可选状态持久化
-- **路由 / 页面方案**：uni-router、generateRouter、generatePages、generateUni 组合互斥可选
-- **可选功能**：请求封装 + 登录鉴权、uni-ui 组件库（easycom 按需引入）
-- **配套命令**：`create` 建页（自动注册路由）、`info` 诊断、`config` 持久化模板源
+传统做法是 `git clone` 一个官方模板再手工裁剪，往往带着一堆用不上的文件和依赖。`create-uni-app` 改为**问答式生成**：你回答十几个问题（语言、样式、状态、路由、平台……），它在瞬间拼装出匹配的项目骨架。
 
-## 技术栈
+## 为什么需要它
 
-Node.js ≥ 16 · TypeScript · Commander · prompts · Vue3 · Vite · uni-app
+手工搭建 uni-app 项目的常见痛点：
 
-## 仓库结构
+| 痛点 | 手工搭建 | create-uni-app |
+|---|---|---|
+| 起步成本 | 导入官方模板后逐项删改 | 交互问答，一次选好全部选型 |
+| 多端脚本 | 逐个手写 `dev:*` / `build:*` | 按所选平台自动生成并精简 |
+| 技术选型 | 装了删、删了装找组合 | Sass/Less/Stylus、TS/JS 一次定 |
+| 状态 / 路由 | 手写 main 入口注入 store、router | 自动注入 Pinia/Vuex、uni-router |
+| 团队复用 | 每个新人各搭各的 | 自定义模板源一键统一 |
 
-本项目为 pnpm workspace，包含两个子项目：
+## 工作原理
 
-| 目录 | npm 包名 | 说明 |
-| --- | --- | --- |
-| `packages/core` | `@mengxi/create-uni-app` | CLI 本体（源码 + 内置模板） |
-| `packages/docs` | `@mengxi/create-uni-app-docs` | 本文档站（VitePress） |
+一条命令内部经历如下流程：
 
-## 文档导航
+```
+交互问答 ──► 确定选项 ──► 组合模板(base + entry + features) ──► 合并依赖 ──► 输出项目 ──► 可选自动安装
+```
 
-- [快速开始](./quick-start) — 安装与创建第一个项目
-- [功能](./../features/platforms) — 各能力的详细说明
-- [自定义模板](./../template/custom-template) — 如何接入团队模板
+生成时按你勾选的「语言 / 功能 / 平台」，只拷贝对应的**模板片段**、只合并对应的**依赖**，未选中的一概不带入。
+
+## 核心概念
+
+| 概念 | 说明 |
+|---|---|
+| 模板 | 一个模板 = `base/`（骨架）+ `entry/`（入口）+ `features/`（功能片段） |
+| 模板源 | 内置 / 本地目录 / git 仓库，可组成「模板组」供团队共享 |
+| 功能片段 | 状态管理、路由、请求封装、uni-ui、主题、分包等可按需勾选 |
+| 平台分组 | 「全部端 / 小程序(全部) / 快应用(全部)」快捷勾选 |
+
+## 设计哲学
+
+1. **只生成所选** — 未选中的功能、文件、依赖一律不带入
+2. **按需注入** — 选 Sass 才装 Sass，选 TS 才写 `tsconfig.json` + 类型检查
+3. **选型互斥** — TS/JS、Pinia/Vuex 等二选一，不留多余
+4. **模板可复用** — 团队用 `--template-source` + `config set` 共享同一套模板
+
+## 核心特性一览
+
+- 🧩 **交互式创建** — 项目名 → 语言 → 预处理器 → 主题 → 状态 → 路由 → 平台 → 功能 → 包管理器
+- 🌐 **多平台按需** — 覆盖全部 uni-app 平台，提供分组快捷勾选
+- 🃏 **TS / JS** — 二者互斥，各自生成对应的工程配置文件
+- 🎨 **多套内置主题** — 默认紫 / 蓝 / 绿 / 橙，兼容 Sass/Less/Stylus/原生 CSS
+- 🗃️ **状态管理** — Pinia / Vuex（均支持持久化）自动注入
+- 🧭 **路由方案** — uni-router / generateRouter / generatePages / generateUni 互斥可选
+- 📦 **可选功能** — 请求封装+登录、uni-ui 组件库（easycom）
+- 🛠️ **配套命令** — `create` 建页、`info` 诊断、`config` 持久化模板源
+
+## 它不是什么
+
+| 误以为 | 实际 |
+|---|---|
+| 是个运行时库 | 仅是脚手架，项目交付后不参与运行 |
+| 需要图形界面 | 纯命令行交互 |
+| 能覆盖已有目录 | 目标目录非空会直接拒绝 |
+| 自动升级 uni 版本 | 版本号内置，需用 `npx @dcloudio/uvm@latest` 对齐 |
+
+## 下一步
+
+- [安装](./installation) — 本地安装 CLI
+- [快速开始](./quick-start) — 创建第一个项目
+- [命令参考](./cli) — 了解全部命令
+- [自定义模板](../template/custom-template) — 接入团队模板

@@ -1,17 +1,6 @@
 # 快速开始
 
-## 安装
-
-```bash
-# 全局安装后直接使用
-npm i -g @mengxi/create-uni-app
-create-uni-app my-app
-
-# 或不经安装，直接执行
-npx @mengxi/create-uni-app my-app
-```
-
-> **包名 vs 命令名**：npm 包名为 `@mengxi/create-uni-app`（作用域包），包内 `bin` 命令为短名 `create-uni-app`，因此全局安装后直接使用 `create-uni-app` 即可。也支持 `yarn add -g` / `pnpm add -g`。
+> 前提：已通过 [安装](./installation) 准备好 CLI，或直接使用 `npx @meng-xi/create-uni-app`。
 
 ## 创建项目
 
@@ -20,7 +9,7 @@ create-uni-app          # 进入交互问答
 create-uni-app my-app   # 直接指定项目名（后续仍可修改）
 ```
 
-进入交互问答后按提示逐步选择，结束时可选自动安装依赖。
+随后按提示逐步选择，结束时可选自动安装依赖。整个过程约 10 步：
 
 | 步骤 | 说明 |
 | --- | --- |
@@ -35,16 +24,29 @@ create-uni-app my-app   # 直接指定项目名（后续仍可修改）
 | 包管理器 | npm / yarn / pnpm |
 | 安装依赖 | 生成后立即安装或稍后手动 |
 
+> 生成只产出你所选内容：未勾选的语言、功能、平台一律不生成，也没有多余依赖。
+
 ## 启动开发
 
 ```bash
 cd my-app
-npm install
-npm run dev:h5            # 启动 H5
-npm run dev:mp-weixin     # 启动微信小程序
-npm run type-check        # 仅 TS 项目有
+npm install              # 若未自动安装
+npm run dev:h5           # 启动 H5
+npm run dev:mp-weixin    # 启动微信小程序
+npm run type-check       # 仅 TS 项目有
 ```
+
+| 命令 | 作用 |
+| --- | --- |
+| `npm run dev:h5` | 浏览器预览 |
+| `npm run dev:mp-weixin` | 编译微信小程序，用开发者工具打开 `dist/dev/mp-weixin` |
+| `npm run type-check` | TS 项目的类型检查 |
 
 ## 平台相关命令
 
 支持的全部平台与脚本，见 [多平台支持](./../features/platforms)。
+
+## 下一步
+
+- [命令参考](./cli) — 了解全部命令与参数
+- [创建页面](./create-page) — 在项目中新建页面

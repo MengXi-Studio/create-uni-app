@@ -1,6 +1,15 @@
 # 状态管理
 
-Pinia / Vuex 二选一，均支持状态持久化，自动注入主入口并生成 store 示例。
+Pinia / Vuex 二选一，均支持状态持久化。选定后自动注入主入口并生成 store 示例，无需手写胶水代码。
+
+## 如何选择
+
+| 场景 | 推荐 |
+| --- | --- |
+| 新项目、Vue3 组合式 API | Pinia |
+| 需要状态自动持久化 | Pinia + 持久化（推荐） |
+| 已有 Vuex 存量代码 | Vuex |
+| 简单页面、几乎无共享状态 | 不使用 |
 
 ## 方案列表
 
@@ -14,18 +23,25 @@ Pinia / Vuex 二选一，均支持状态持久化，自动注入主入口并生�
 
 ## 依赖注入
 
-- **Pinia**：`pinia`
-- **Pinia + 持久化**：`pinia` + `pinia-plugin-persistedstate`
-- **Vuex**：`vuex@4`
-- **Vuex + 持久化**：`vuex@4` + `vuex-persistedstate`
-
-选择 `none` 时不引入任何状态管理依赖，保持最小化。
+| 方案 | dependencies |
+| --- | --- |
+| Pinia | `pinia` |
+| Pinia + 持久化 | `pinia` + `pinia-plugin-persistedstate` |
+| Vuex | `vuex@4` |
+| Vuex + 持久化 | `vuex@4` + `vuex-persistedstate` |
+| 不使用 | 无 |
 
 ## 主入口注入
 
-- **Pinia**：`createPinia()` 创建实例，持久化时 `pinia.use(piniaPluginPersistedstate)`，`app.use(pinia)`
-- **Vuex**：`import store from './store'`，持久化在 `store/index.ts` 内配置 `plugins: [createPersistedState()]`
+| 方案 | 注入方式 |
+| --- | --- |
+| Pinia | `createPinia()` 创建实例，持久化时 `pinia.use(piniaPluginPersistedstate)`，`app.use(pinia)` |
+| Vuex | `import store from './store'`，持久化在 `store/index.ts` 内配置 `plugins: [createPersistedState()]` |
 
-同时生成对应的 store/counter 示例文件，方便直接在此基础上扩展。
+> vuex 的持久化在 store 内配置；pinia 的持久化通过 `createPinia` 实例注册插件，二者注入位置不同。
 
-> vuex 的持久化在 store 内配置；pinia 的持久化通过 createPinia 实例注册插件，二者注入位置不同。
+同时生成对应的 `store/counter` 示例文件，可直接在此基础上扩展。
+
+## 下一步
+
+- [路由方案](./router) — 路由与页面生成选型

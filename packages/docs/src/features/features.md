@@ -1,15 +1,18 @@
-# 可选功能
+# 集成项
 
-除核心骨架外，可选装以下功能（可多选）：
+除核心骨架外，可选集成以下能力（可多选）。只勾选的能力才注入依赖与代码，未勾选一概不带入。
 
 ## 请求封装 + 登录鉴权
 
-基于 `uni.request` 的统一请求封装与登录鉴权，包含：
+基于 `uni.request` 的统一请求封装与登录鉴权，生成可直接使用的工具与示例：
 
-- 统一拦截、错误处理
-- token 存取与刷新
-- 登录守卫
-- 示例 API（`src/api/user`）与工具（`src/utils/request`、`src/utils/auth`）
+| 生成文件 | 作用 |
+| --- | --- |
+| `src/utils/request` | 统一拦截、错误处理、token 注入 |
+| `src/utils/auth` | token 存取与刷新、登录守卫 |
+| `src/api/user` | 示例 API |
+
+无需配置即可起步，后续按需扩展。
 
 ## uni-ui 组件库
 
@@ -26,13 +29,15 @@
 }
 ```
 
-生成 `src/pages/index` 示例页面演示组件用法。
+生成 `src/pages/index` 示例页面演示组件用法，模板中使用 `uni-*` 标签即自动按需引入，无需手动 import。
 
 ## 依赖按需注入
 
 | 功能 | dependencies | 说明 |
 | --- | --- | --- |
 | uni-ui | `@dcloudio/uni-ui` | easycom 按需引入 |
-| request | 无额外依赖 | 基 / `uni.request` 封装 |
+| request | 无额外依赖 | 基于 `uni.request` 封装 |
 
-只勾选的功能才注入依赖与代码，不勾选则不携带。
+## 下一步
+
+- [模板目录约定](../template/custom-template) — 把团队模板接入脚手架

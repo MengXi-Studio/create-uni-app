@@ -14,9 +14,9 @@ export const FEATURE_DEV_DEPS: Partial<Record<Feature, Record<string, string>>> 
 
 /** 路由方案（包含 uni-router）对应的运行时依赖 */
 const ROUTER_DEPS: Record<'router' | 'router-generate' | 'uni', Record<string, string>> = {
-	router: { '@meng-xi/uni-router': '^2.7.0' },
-	'router-generate': { '@meng-xi/uni-router': '^2.7.0' },
-	uni: { '@meng-xi/uni-router': '^2.7.0' }
+	router: { '@meng-xi/uni-router': '^2.7.1' },
+	'router-generate': { '@meng-xi/uni-router': '^2.7.1' },
+	uni: { '@meng-xi/uni-router': '^2.7.1' }
 }
 
 /** 路由方案使用 @meng-xi/vite-plugin 生成插件的 devDependencies（generatePages/generateUni 用）

@@ -1,17 +1,6 @@
 # Quick Start
 
-## Installation
-
-```bash
-# Install globally and use directly
-npm i -g @meng-xi/create-uni-app
-create-uni-app my-app
-
-# Or run without installing
-npx @meng-xi/create-uni-app my-app
-```
-
-> **Package name vs command name**: the npm package is `@meng-xi/create-uni-app` (scoped), while the `bin` command is the short `create-uni-app`. After a global install you use `create-uni-app` directly. `yarn add -g` / `pnpm add -g` also work.
+> Prerequisite: get the CLI ready via [Installation](./installation), or use `npx @meng-xi/create-uni-app` directly.
 
 ## Create a Project
 

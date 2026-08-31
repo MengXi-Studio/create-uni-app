@@ -1,6 +1,6 @@
-# Optional Features
+# Integrations
 
-Beyond the core skeleton, these optional features can be added (multi-select):
+Beyond the core skeleton, these optional integrations can be added (multi-select):
 
 ## Request Wrapper + Auth
 

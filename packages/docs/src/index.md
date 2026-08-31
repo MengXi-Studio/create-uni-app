@@ -14,7 +14,7 @@ hero:
   actions:
     - theme: brand
       text: 快速开始
-      link: /guide/getting-started
+      link: /guide/quick-start
     - theme: alt
       text: 了解更多
       link: /guide/introduction

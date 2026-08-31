@@ -55,4 +55,4 @@ create-uni-app config get                  # show the current template source
 create-uni-app config remove               # clear and fall back to the built-in template
 ```
 
-See [Persistent Config](../template/config).
+See [Persistent Config](./config).

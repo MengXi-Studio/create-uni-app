@@ -33,6 +33,7 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 		/** 网站主题配置 导航栏 */
 		nav: [
 			{ text: 'Guide', link: '/en/guide/quick-start' },
+			{ text: 'Commands', link: '/en/guide/cli' },
 			{ text: 'Features', link: '/en/features/platforms' },
 			{ text: 'Templates', link: '/en/template/custom-template' },
 			{
@@ -49,41 +50,41 @@ export const enConfig: LocaleSpecificConfig<DefaultTheme.Config> = {
 				]
 			}
 		],
-		/** 网站主题配置 侧边栏 */
-		sidebar: {
-			'/en/guide/': [
-				{
-					text: 'Guide',
-					items: [
-						{ text: 'Introduction', link: '/en/guide/introduction' },
-						{ text: 'Quick Start', link: '/en/guide/quick-start' },
-						{ text: 'CLI Reference', link: '/en/guide/cli' },
-						{ text: 'Create a Page', link: '/en/guide/create-page' }
-					]
-				}
-			],
-			'/en/features/': [
-				{
-					text: 'Features',
-					items: [
-						{ text: 'Platforms', link: '/en/features/platforms' },
-						{ text: 'Theming & Preprocessors', link: '/en/features/theming' },
-						{ text: 'State Management', link: '/en/features/state' },
-						{ text: 'Router Schemes', link: '/en/features/router' },
-						{ text: 'Optional Features', link: '/en/features/features' }
-					]
-				}
-			],
-			'/en/template/': [
-				{
-					text: 'Custom Templates',
-					items: [
-						{ text: 'Template Layout', link: '/en/template/custom-template' },
-						{ text: 'Template Groups & --template', link: '/en/template/template-group' },
-						{ text: 'Persistent Config', link: '/en/template/config' }
-					]
-				}
-			]
-		}
+		/** 网站主题配置 侧边栏（全站统一展示：Guide + Commands + Features + Templates） */
+		sidebar: [
+			{
+				text: 'Guide',
+				items: [
+					{ text: 'Introduction', link: '/en/guide/introduction' },
+					{ text: 'Installation', link: '/en/guide/installation' },
+					{ text: 'Quick Start', link: '/en/guide/quick-start' }
+				]
+			},
+			{
+				text: 'Commands',
+				items: [
+					{ text: 'CLI Reference', link: '/en/guide/cli' },
+					{ text: 'Create a Page', link: '/en/guide/create-page' },
+					{ text: 'Persistent Config', link: '/en/guide/config' }
+				]
+			},
+			{
+				text: 'Features',
+				items: [
+					{ text: 'Platforms', link: '/en/features/platforms' },
+					{ text: 'Theming & Preprocessors', link: '/en/features/theming' },
+					{ text: 'State Management', link: '/en/features/state' },
+					{ text: 'Router Schemes', link: '/en/features/router' },
+					{ text: 'Integrations', link: '/en/features/features' }
+				]
+			},
+			{
+				text: 'Custom Templates',
+				items: [
+					{ text: 'Template Layout', link: '/en/template/custom-template' },
+					{ text: 'Template Groups & --template', link: '/en/template/template-group' }
+				]
+			}
+		]
 	}
 }
