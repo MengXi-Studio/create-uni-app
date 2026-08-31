@@ -19,9 +19,9 @@ import os from 'node:os'
 import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import prompts from 'prompts'
-import { getTemplatesRoot } from './utils'
-import { QuestionPresets } from '../types'
-import { THEME_IDS } from '../constants'
+import { getTemplatesRoot } from '@/core/utils'
+import { QuestionPresets } from '@/types'
+import { THEME_IDS } from '@/constants'
 
 /** 拉取 git 模板的临时根目录 */
 const TMP_ROOT = path.join(os.tmpdir(), 'create-uni-app-template')

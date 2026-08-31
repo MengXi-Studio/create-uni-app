@@ -1,7 +1,7 @@
 /**
  * 目标平台相关常量：平台 ID、脚本、运行时依赖
  */
-import { TargetPlatform } from '../types'
+import { TargetPlatform } from '@/types'
 
 /** 除 multi 外的全部真实平台（用于全量模式） */
 export const ALL_TARGET_PLATFORMS: Exclude<TargetPlatform, 'multi'>[] = [

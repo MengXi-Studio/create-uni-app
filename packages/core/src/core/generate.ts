@@ -9,10 +9,10 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { TargetPlatform, PlatformChoice, CssPreprocessor, StateManager, RouterScheme, CreateOptions, TemplateContext } from '../types'
-import { Feature, Theme } from '../enums'
-import { UNI_VERSION, ALL_TARGET_PLATFORMS, PLATFORM_GROUPS, PLATFORM_SCRIPTS, PLATFORM_DEPS, ALL_SCRIPTS, renderThemeVars, getRouterDeps, ROUTER_PLUGINS, FEATURE_DEPS, FEATURE_DEV_DEPS, STATE_DEPS } from '../constants'
-import { copyDir, getTemplatesRoot, renderTemplate } from './utils'
+import { TargetPlatform, PlatformChoice, CssPreprocessor, StateManager, RouterScheme, CreateOptions, TemplateContext } from '@/types'
+import { Feature, Theme } from '@/enums'
+import { UNI_VERSION, ALL_TARGET_PLATFORMS, PLATFORM_GROUPS, PLATFORM_SCRIPTS, PLATFORM_DEPS, ALL_SCRIPTS, renderThemeVars, getRouterDeps, ROUTER_PLUGINS, FEATURE_DEPS, FEATURE_DEV_DEPS, STATE_DEPS } from '@/constants'
+import { copyDir, getTemplatesRoot, renderTemplate } from '@/core/utils'
 
 /**
  * 按 TS/JS 选择并拷贝功能片段目录（目录结构为 features/<feature>/<ext>/...）。

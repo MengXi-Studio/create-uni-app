@@ -1,8 +1,8 @@
 /**
  * 用户问答选项与渲染上下文的全局配置类型
  */
-import { PlatformChoice } from './platform'
-import { Feature, ThemeOption } from '../enums'
+import { PlatformChoice } from '@/types/platform'
+import { Feature, ThemeOption } from '@/enums'
 
 /** CSS 预处理器 */
 export type CssPreprocessor = 'scss' | 'less' | 'stylus' | 'none'

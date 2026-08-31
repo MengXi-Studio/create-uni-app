@@ -5,17 +5,21 @@
  * 用法：npx create-uni-app [projectName]
  * 复刻 create-taro 的命令体验，提供交互式问答 + 按需生成 + 依赖安装收尾。
  */
-import fs from 'node:fs'
+import { addAlias } from 'module-alias'
 import path from 'node:path'
+// 注册 @/ 路径别名，必须在使用任何 '@/...' 导入之前执行。
+// 编译产物位于 dist/index.js，__dirname 即 dist，故 @/ 指向编译后的源码根。
+addAlias('@', __dirname)
+import fs from 'node:fs'
 import { spawnSync } from 'node:child_process'
 import { program } from 'commander'
-import { askQuestions } from './core/questions'
-import { generateProject } from './core/generate'
-import { resolveTemplateSource, selectTemplateEntry, loadTemplatePresets } from './core/template-source'
-import { getTemplateSource, printConfig, saveTemplateSource, clearTemplateSource } from './commands/config'
-import { createPage } from './commands/create-page'
-import { runInfo } from './commands/info'
-import { CreateOptions } from './types'
+import { askQuestions } from '@/core/questions'
+import { generateProject } from '@/core/generate'
+import { resolveTemplateSource, selectTemplateEntry, loadTemplatePresets } from '@/core/template-source'
+import { getTemplateSource, printConfig, saveTemplateSource, clearTemplateSource } from '@/commands/config'
+import { createPage } from '@/commands/create-page'
+import { runInfo } from '@/commands/info'
+import { CreateOptions } from '@/types'
 
 /** 项目根 package.json（用于读取版本号） */
 const PKG = require('../package.json') as { version: string }

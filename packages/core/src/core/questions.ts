@@ -9,9 +9,9 @@
  * 复刻 create-taro 的交互体验；支持由模板的 template.json 预填默认值。
  */
 import prompts from 'prompts'
-import { CreateOptions, QuestionPresets, CssPreprocessor, PlatformChoice, StateManager, RouterScheme } from '../types'
-import { Feature, Theme, ThemeOption } from '../enums'
-import { normalizePackageName } from './utils'
+import { CreateOptions, QuestionPresets, CssPreprocessor, PlatformChoice, StateManager, RouterScheme } from '@/types'
+import { Feature, Theme, ThemeOption } from '@/enums'
+import { normalizePackageName } from '@/core/utils'
 
 /** 提问结果的中间形态（字段可能缺失 / 类型未定） */
 type PartialAnswers = {

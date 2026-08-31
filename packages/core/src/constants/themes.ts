@@ -4,8 +4,8 @@
  * 主题以「色板数据」为唯一来源，渲染时按所选预处理器（scss/less/stylus）
  * 输出对应语法，保证三套预处理器下主题均可全局生效。
  */
-import { Theme } from '../enums'
-import { CssPreprocessor } from '../types'
+import { Theme } from '@/enums'
+import { CssPreprocessor } from '@/types'
 
 /** 内置主题值集合（用于校验 template.json 中的 theme 字段） */
 export const THEME_IDS: readonly string[] = ['default', 'blue', 'green', 'orange']

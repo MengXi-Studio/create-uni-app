@@ -13,6 +13,5 @@
 		"resolveJsonModule": true,
 		"verbatimModuleSyntax": true
 	},
-	"include": ["*.ts", "*.mts", "*.cts"],
-	"exclude": ["node_modules", "dist", "packages"]
+	"include": ["packages/**/*.ts"]
 }

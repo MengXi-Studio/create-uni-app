@@ -1,8 +1,8 @@
 /**
  * 可选功能与状态管理、路由方案对应的依赖
  */
-import { Feature } from '../enums'
-import { RouterScheme, StateManager } from '../types'
+import { Feature } from '@/enums'
+import { RouterScheme, StateManager } from '@/types'
 
 /** 各可选功能需要合并进 package.json dependencies 的依赖 */
 export const FEATURE_DEPS: Partial<Record<Feature, Record<string, string>>> = {
