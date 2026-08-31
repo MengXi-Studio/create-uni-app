@@ -46,9 +46,11 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: pnpm
 
-      # 配置 GitHub Pages
+      # 配置 GitHub Pages（enablement: true 自动启用 Pages site）
       - name: Setup Pages
         uses: actions/configure-pages@v6
+        with:
+          enablement: true
 
       # 严格按 lockfile 安装依赖，保证可复现
       - name: Install dependencies
