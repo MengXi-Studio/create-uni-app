@@ -19,9 +19,6 @@
 
 基于 [uni-app](https://uniapp.dcloud.net.cn/) + Vue3 + Vite 的**交互式脚手架 CLI**。通过命令行对话按需生成 uni-app 基础项目与可选能力，只产出你选中的内容，不携带多余文件与依赖。
 
-- 📖 [完整文档](../packages/docs)（VitePress 文档站）
-- 📝 [查看更新日志](../packages/docs/src/guide/changelog.md)
-
 ## 特性
 
 - **交互式创建**：项目名 → 脚本语言 → CSS 预处理器 → 内置主题 → 状态管理 → 路由方案 → 目标平台 → 可选功能 → 包管理器
@@ -69,6 +66,14 @@ pnpm run start     # 本地运行 CLI
 ```
 
 发布前 `prepublishOnly` 会自动构建；`files` 已锁定 `dist` 与 `templates`。
+
+## 文档
+
+📖 **[https://mengxi-studio.github.io/create-uni-app/](https://mengxi-studio.github.io/create-uni-app/)**
+
+## 更新日志
+
+📝 **[https://mengxi-studio.github.io/create-uni-app/changelog.html/](https://mengxi-studio.github.io/create-uni-app/changelog.html/)**
 
 ## License
 

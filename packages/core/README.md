@@ -1,20 +1,20 @@
 **中文** | [English](./README-en.md)
 
 <div align="center">
-	<a href="https://github.com/MengXi-Studio/create-uni-app">
-		<img alt="梦曦工作室 Logo" width="215" src="https://github.com/MengXi-Studio/create-uni-app/blob/master/packages/docs/src/public/logo.png">
-	</a>
-	<a href="https://github.com/MengXi-Studio/create-uni-app">
-		<img alt="微信公众号 二维码" width="215" src="https://github.com/MengXi-Studio/create-uni-app/blob/master/packages/docs/src/public/QR_code.jpg">
-	</a>
-	<br><br>
-	<h1>@meng-xi/create-uni-app</h1>
-	<p>基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能</p>
-	<p>
-		<a href="https://github.com/MengXi-Studio/create-uni-app/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/github/license/MengXi-Studio/create-uni-app.svg"></a>
-		<a href="https://www.npmjs.com/package/@meng-xi/create-uni-app"><img alt="npm version" src="https://img.shields.io/npm/v/@meng-xi/create-uni-app?color=blue"></a>
-		<a href="https://www.npmjs.com/package/@meng-xi/create-uni-app"><img alt="npm downloads" src="https://img.shields.io/npm/dt/@meng-xi/create-uni-app?color=green"></a>
-	</p>
+		<a href="https://github.com/MengXi-Studio/create-uni-app">
+				<img alt="梦曦工作室 Logo" width="215" src="https://raw.githubusercontent.com/MengXi-Studio/create-uni-app/master/packages/docs/src/public/logo.png">
+		</a>
+		<a href="https://github.com/MengXi-Studio/create-uni-app">
+				<img alt="微信公众号 二维码" width="215" src="https://raw.githubusercontent.com/MengXi-Studio/create-uni-app/master/packages/docs/src/public/QR_code.jpg">
+		</a>
+		<br><br>
+		<h1>@meng-xi/create-uni-app</h1>
+		<p>基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能</p>
+		<p>
+				<a href="https://github.com/MengXi-Studio/create-uni-app/blob/master/LICENSE"><img alt="license" src="https://img.shields.io/github/license/MengXi-Studio/create-uni-app.svg"></a>
+				<a href="https://www.npmjs.com/package/@meng-xi/create-uni-app"><img alt="npm version" src="https://img.shields.io/npm/v/@meng-xi/create-uni-app?color=blue"></a>
+				<a href="https://www.npmjs.com/package/@meng-xi/create-uni-app"><img alt="npm downloads" src="https://img.shields.io/npm/dt/@meng-xi/create-uni-app?color=green"></a>
+		</p>
 </div>
 
 基于 [uni-app](https://uniapp.dcloud.net.cn/) + Vue3 + Vite 的**交互式脚手架 CLI**。通过命令行对话按需生成 uni-app 基础项目与可选能力，只产出你选中的内容，不携带多余文件与依赖。
@@ -66,6 +66,14 @@ pnpm run start     # 本地运行 CLI
 ```
 
 发布前 `prepublishOnly` 会自动构建；`files` 已锁定 `dist` 与 `templates`。
+
+## 文档
+
+📖 **[https://mengxi-studio.github.io/create-uni-app/](https://mengxi-studio.github.io/create-uni-app/)**
+
+## 更新日志
+
+📝 **[https://mengxi-studio.github.io/create-uni-app/changelog.html/](https://mengxi-studio.github.io/create-uni-app/changelog.html/)**
 
 ## License
 

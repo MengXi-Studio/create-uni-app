@@ -61,6 +61,14 @@ pnpm run start     # run CLI locally
 
 `prepublishOnly` runs the build before publishing; `files` ships `dist` and `templates`.
 
+## Documentation
+
+📖 **[https://mengxi-studio.github.io/create-uni-app/](https://mengxi-studio.github.io/create-uni-app/)**
+
+## Changelog
+
+📝 **[https://mengxi-studio.github.io/create-uni-app/changelog.html/](https://mengxi-studio.github.io/create-uni-app/changelog.html/)**
+
 ## License
 
 [MIT](./LICENSE)
