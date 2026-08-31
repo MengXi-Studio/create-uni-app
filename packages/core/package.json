@@ -18,7 +18,8 @@
 	"files": [
 		"dist",
 		"templates",
-		"README.md"
+		"README.md",
+		"README-en.md"
 	],
 	"scripts": {
 		"dev": "tsc -p tsconfig.json && node dist/index.js --help",
