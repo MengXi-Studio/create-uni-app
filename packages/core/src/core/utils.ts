@@ -1,8 +1,8 @@
 /**
  * 通用工具函数
  */
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from 'node:fs'
+import path from 'node:path'
 
 /**
  * 将用户输入的项目名清洗为合法的 npm 包名。
@@ -12,14 +12,14 @@ import path from 'node:path';
  * @returns 合法化的包名，非法时返回 undefined
  */
 export function normalizePackageName(rawName: string): string | undefined {
-  const cleaned = rawName
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/^@/g, '') // 去掉包作用域前缀
-    .replace(/[^a-z0-9._-]/g, '')
-    .replace(/^-+|-+$/g, '');
-  return cleaned || undefined;
+	const cleaned = rawName
+		.trim()
+		.toLowerCase()
+		.replace(/\s+/g, '-')
+		.replace(/^@/g, '') // 去掉包作用域前缀
+		.replace(/[^a-z0-9._-]/g, '')
+		.replace(/^-+|-+$/g, '')
+	return cleaned || undefined
 }
 
 /**
@@ -31,22 +31,20 @@ export function normalizePackageName(rawName: string): string | undefined {
  * @param replace 文件内容替换回调，接收文件内容返回替换后内容
  */
 export function copyDir(src: string, dest: string, replace: (content: string) => string): void {
-  fs.mkdirSync(dest, { recursive: true });
-  const entries = fs.readdirSync(src, { withFileTypes: true });
-  for (const entry of entries) {
-    const srcPath = path.join(src, entry.name);
-    if (entry.isDirectory()) {
-      copyDir(srcPath, path.join(dest, entry.name), replace);
-      continue;
-    }
-    const destName = entry.name.endsWith('.tpl')
-      ? entry.name.slice(0, -'.tpl'.length)
-      : entry.name;
-    const destPath = path.join(dest, destName);
-    const content = fs.readFileSync(srcPath, 'utf8');
-    fs.mkdirSync(path.dirname(destPath), { recursive: true });
-    fs.writeFileSync(destPath, replace(content), 'utf8');
-  }
+	fs.mkdirSync(dest, { recursive: true })
+	const entries = fs.readdirSync(src, { withFileTypes: true })
+	for (const entry of entries) {
+		const srcPath = path.join(src, entry.name)
+		if (entry.isDirectory()) {
+			copyDir(srcPath, path.join(dest, entry.name), replace)
+			continue
+		}
+		const destName = entry.name.endsWith('.tpl') ? entry.name.slice(0, -'.tpl'.length) : entry.name
+		const destPath = path.join(dest, destName)
+		const content = fs.readFileSync(srcPath, 'utf8')
+		fs.mkdirSync(path.dirname(destPath), { recursive: true })
+		fs.writeFileSync(destPath, replace(content), 'utf8')
+	}
 }
 
 /**
@@ -57,10 +55,10 @@ export function copyDir(src: string, dest: string, replace: (content: string) =>
  * @returns 替换后的内容
  */
 export function renderTemplate(content: string, context: Record<string, unknown>): string {
-  return content.replace(/\$\{(\w+)\}/g, (match, token: string) => {
-    const value = context[token];
-    return value === undefined || value === null ? match : String(value);
-  });
+	return content.replace(/\$\{(\w+)\}/g, (match, token: string) => {
+		const value = context[token]
+		return value === undefined || value === null ? match : String(value)
+	})
 }
 
 /**
@@ -72,5 +70,5 @@ export function renderTemplate(content: string, context: Record<string, unknown>
  * @returns templates 根目录绝对路径
  */
 export function getTemplatesRoot(): string {
-  return path.resolve(__dirname, '..', '..', 'templates');
+	return path.resolve(__dirname, '..', '..', 'templates')
 }

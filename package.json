@@ -1,53 +1,50 @@
 {
-  "name": "@mengxi/create-uni-app",
-  "version": "0.1.0",
-  "description": "基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能",
-  "type": "commonjs",
-  "main": "dist/index.js",
-  "bin": {
-    "create-uni-app": "dist/index.js"
-  },
-  "files": [
-    "dist",
-    "templates",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "rm -rf dist && tsc -p tsconfig.json",
-    "dev": "tsc -p tsconfig.json && node dist/index.js --help",
-    "start": "node dist/index.js",
-    "prepublishOnly": "pnpm run build"
-  },
-  "author": {
-    "name": "MengXi Studio"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MengXi-Studio/create-uni-app.git"
-  },
-  "homepage": "https://github.com/MengXi-Studio/create-uni-app#readme",
-  "bugs": {
-    "url": "https://github.com/MengXi-Studio/create-uni-app/issues"
-  },
-  "engines": {
-    "node": ">=16.0.0"
-  },
-  "packageManager": "pnpm@10.31.0",
-  "keywords": [
-    "uni-app",
-    "cli",
-    "scaffold",
-    "create-uni-app"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "commander": "^11.1.0",
-    "prompts": "^2.4.2"
-  },
-  "devDependencies": {
-    "@types/node": "^22.0.0",
-    "@types/prompts": "^2.4.9",
-    "typescript": "^5.5.0"
-  }
+	"name": "create-uni-app",
+	"type": "module",
+	"version": "1.0.0",
+	"private": false,
+	"description": "基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能",
+	"packageManager": "pnpm@10.31.0",
+	"workspaces": [
+		"packages/*"
+	],
+	"scripts": {
+		"build": "pnpm -r --stream build",
+		"dev": "pnpm --filter @mengxi/create-uni-app dev",
+		"start": "pnpm --filter @mengxi/create-uni-app start",
+		"docs:dev": "pnpm --filter @mengxi/create-uni-app-docs dev",
+		"docs:build": "pnpm --filter @mengxi/create-uni-app-docs build",
+		"docs:preview": "pnpm --filter @mengxi/create-uni-app-docs preview",
+		"release": "bumpp",
+		"lint": "eslint .",
+		"lint:fix": "pnpm lint --fix; pnpm lint",
+		"clean": "rimraf --glob node_modules pnpm-lock.yaml packages/**/node_modules packages/**/pnpm-lock.yaml"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.17.0",
+		"@types/node": "^22.0.0",
+		"bumpp": "^10.1.0",
+		"eslint": "^9.17.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"globals": "^15.14.0",
+		"prettier": "^3.4.2",
+		"rimraf": "^6.0.1",
+		"typescript": "^5.5.0",
+		"typescript-eslint": "^8.19.0"
+	},
+	"engines": {
+		"node": ">=16.0.0"
+	},
+	"author": {
+		"name": "PedroQue99",
+		"email": "ksmengfang@163.com"
+	},
+	"license": "MIT",
+	"homepage": "https://github.com/MengXi-Studio/create-uni-app#readme",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/MengXi-Studio/create-uni-app.git"
+	},
+	"bugs": "https://github.com/MengXi-Studio/create-uni-app/issues"
 }

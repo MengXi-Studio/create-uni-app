@@ -1,0 +1,51 @@
+{
+  "name": "@mengxi/create-uni-app",
+  "version": "0.1.0",
+  "description": "基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "bin": {
+    "create-uni-app": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "templates",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc -p tsconfig.json",
+    "dev": "tsc -p tsconfig.json && node dist/index.js --help",
+    "start": "node dist/index.js",
+    "prepublishOnly": "pnpm run build"
+  },
+  "author": {
+    "name": "MengXi Studio"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MengXi-Studio/create-uni-app.git"
+  },
+  "homepage": "https://github.com/MengXi-Studio/create-uni-app#readme",
+  "bugs": {
+    "url": "https://github.com/MengXi-Studio/create-uni-app/issues"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "keywords": [
+    "uni-app",
+    "cli",
+    "scaffold",
+    "create-uni-app"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "commander": "^11.1.0",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/prompts": "^2.4.9",
+    "typescript": "^5.5.0"
+  }
+}

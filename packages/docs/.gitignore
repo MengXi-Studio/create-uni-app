@@ -1,0 +1,6 @@
+# VitePress 构建产物与缓存
+.vitepress/cache/
+.vitepress/dist/
+
+# 依赖
+node_modules/

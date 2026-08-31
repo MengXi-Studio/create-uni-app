@@ -1,19 +1,18 @@
 {
 	"compilerOptions": {
-		"target": "ES2020",
-		"module": "CommonJS",
-		"moduleResolution": "node",
-		"lib": ["ES2020"],
-		"outDir": "dist",
-		"rootDir": "src",
+		"target": "ES2022",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"lib": ["ES2022"],
+		"types": ["node"],
 		"strict": true,
+		"noEmit": true,
 		"esModuleInterop": true,
 		"skipLibCheck": true,
 		"forceConsistentCasingInFileNames": true,
 		"resolveJsonModule": true,
-		"declaration": false,
-		"sourceMap": false
+		"verbatimModuleSyntax": true
 	},
-	"include": ["src/**/*"],
-	"exclude": ["node_modules", "dist", "templates"]
+	"include": ["*.ts", "*.mts", "*.cts"],
+	"exclude": ["node_modules", "dist", "packages"]
 }

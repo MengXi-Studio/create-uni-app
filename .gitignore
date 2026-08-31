@@ -1,25 +1,29 @@
-# 依赖
-node_modules/
-
-# 构建产物
-dist/
-
-# 包管理
-pnpm-lock.yaml.tmp
-pnpm-debug.log*
-yarn-error.log*
-
-# 测试与临时产物
-_smoke/
-_group/
-coverage/
-
-# 系统 / 编辑器
-.DS_Store
-*.local
-.hbuilderx/
+# Logs
+logs
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# 环境
-.env
-.env.*
+node_modules
+.DS_Store
+dist
+*.local
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Test output
+coverage
+.coverage
+*.lcov
+
+# Vitest
+.vitest
