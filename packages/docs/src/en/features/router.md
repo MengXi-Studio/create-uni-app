@@ -1,6 +1,16 @@
 # Router Schemes
 
-Router / page generation schemes are mutually exclusive, covering the full path from native navigation to a modern fully-automatic setup.
+Router / page generation schemes are mutually exclusive, covering the full path from "native navigation" to a modern fully-automatic setup. Once chosen, the main entry, `vite.config.js`, and matching dependencies are auto-injected.
+
+## Evolution Overview
+
+| Scheme | pages.json | Route config | Fits |
+| --- | --- | --- | --- |
+| None | manual | none | Just native navigation |
+| uni-router (manual) | manual | handwritten `router.config` | Want guards, but prefer handwriting |
+| uni-router + generateRouter | manual | auto-generated (recommended) | Balance of tradition + type safety |
+| generatePages only | auto-generated | none | Auto page generation without a router |
+| uni-router + generateUni | fully auto | fully auto | Modern fully-automatic |
 
 ## Schemes
 
@@ -14,16 +24,24 @@ Router / page generation schemes are mutually exclusive, covering the full path 
 
 ## Dependency Mapping
 
-- **uni-router family**: `@meng-xi/uni-router`
-- **generateRouter / generatePages / generateUni**: `@meng-xi/vite-plugin` (devDependencies)
+| Scenario | Dependency |
+| --- | --- |
+| uni-router family | `@meng-xi/uni-router` (dependencies) |
+| generateRouter / generatePages / generateUni | `@meng-xi/vite-plugin` (devDependencies) |
 
 ## Generation Behavior
 
-- **uni-router family**: injects `createRouter({ routes, plugins, interceptUniApi })` and `app.use(router)` into the main entry
-- **Pure uni-router (no plugin)**: also generates a hand-written `src/router.config` example
-- **generatePages / generateUni**: injects the matching plugin into `vite.config.js` and generates a `pages-sub` subpackage example
+| Scheme | Behavior |
+| --- | --- |
+| uni-router family | Injects `createRouter({ routes, plugins, interceptUniApi })` and `app.use(router)` into the main entry |
+| Pure uni-router (no plugin) | Also generates a handwritten `src/router.config` example |
+| generatePages / generateUni | Injects the matching plugin into `vite.config.js` and generates a `pages-sub` subpackage example |
 
 ## Notes
 
 - uni-router relies on `@meng-xi/vite-plugin` to auto-generate route config and type declarations from `pages.json` (generateRouter / generateUni)
 - `router` (pure manual) differs from `router-generate` / `uni` in whether the vite plugin auto-produces `router.config`
+
+## Next Steps
+
+- [Integrations](./features) — request wrapper and uni-ui

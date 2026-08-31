@@ -1,15 +1,18 @@
 # Integrations
 
-Beyond the core skeleton, these optional integrations can be added (multi-select):
+Beyond the core skeleton, these optional integrations can be added (multi-select). Only selected ones bring in dependencies and code; unselected ones are left out.
 
 ## Request Wrapper + Auth
 
-A unified `uni.request` wrapper and login auth, including:
+A unified `uni.request` wrapper and login auth, generating ready-to-use utilities and examples:
 
-- Unified interception and error handling
-- Token storage and refresh
-- Login guard
-- Example API (`src/api/user`) and utilities (`src/utils/request`, `src/utils/auth`)
+| Generated file | Purpose |
+| --- | --- |
+| `src/utils/request` | Unified interception, error handling, token injection |
+| `src/utils/auth` | Token storage and refresh, login guard |
+| `src/api/user` | Example API |
+
+Just works from the start; extend as needed.
 
 ## uni-ui Component Library
 
@@ -26,7 +29,7 @@ Integrates `@dcloudio/uni-ui` via **easycom** on-demand in `pages.json`:
 }
 ```
 
-Generates a `src/pages/index` example page demonstrating component usage.
+Generates a `src/pages/index` example page. Using `uni-*` tags in templates auto-imports on demand — no manual imports.
 
 ## On-Demand Dependencies
 
@@ -35,4 +38,6 @@ Generates a `src/pages/index` example page demonstrating component usage.
 | uni-ui | `@dcloudio/uni-ui` | easycom on demand |
 | request | none | Built on `uni.request` |
 
-Only selected features get their dependencies and code injected; unselected ones are left out.
+## Next Steps
+
+- [Template Layout](../template/custom-template) — plug your team templates into the scaffold

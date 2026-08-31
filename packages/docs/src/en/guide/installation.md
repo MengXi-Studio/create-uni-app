@@ -1,23 +1,41 @@
 # Installation
 
-## npm / yarn / pnpm
+## Requirements
+
+| Dependency | Requirement |
+| --- | --- |
+| Node.js | ≥ 16 |
+
+## Installation Methods
+
+Choose any one of the following — all equivalent:
 
 ```bash
-# Install globally and use directly
+# npm
 npm i -g @meng-xi/create-uni-app
-create-uni-app my-app
 
-# Or run without installing
+# yarn
+yarn add -g @meng-xi/create-uni-app
+
+# pnpm
+pnpm add -g @meng-xi/create-uni-app
+```
+
+You can also run it temporarily without installing:
+
+```bash
 npx @meng-xi/create-uni-app my-app
 ```
 
-> **Package name vs command name**: the npm package is `@meng-xi/create-uni-app` (scoped, under the `meng-xi` org), while the `bin` command is the short `create-uni-app`. After a global install, use `create-uni-app` directly.
+> **Package name vs command name**: the npm package is `@meng-xi/create-uni-app` (scoped, under the `meng-xi` org), while the `bin` command is the short `create-uni-app`. So after a global install, run `create-uni-app` directly — no scope prefix needed.
 
-- `yarn add -g @meng-xi/create-uni-app`
-- `pnpm add -g @meng-xi/create-uni-app`
+## Verify
 
-## Requirements
+```bash
+create-uni-app --version   # should print the version
+create-uni-app --help      # should print command help
+```
 
-- **Node.js** ≥ 16
+## Next Steps
 
-After installing, go to [Quick Start](./quick-start) to create your first project.
+- [Quick Start](./quick-start) — create your first project

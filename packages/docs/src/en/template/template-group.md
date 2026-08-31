@@ -1,6 +1,8 @@
 # Template Groups & --template
 
-A template group = multiple templates under one root, each with `base/`:
+A template group = multiple templates under one root, each containing `base/`. Use it to organize several templates (e.g., admin / shop) in a single template source.
+
+## Directory Structure
 
 ```
 <template group root>/
@@ -8,7 +10,19 @@ A template group = multiple templates under one root, each with `base/`:
 └── tpl-admin/  base/  entry/  features/
 ```
 
-When creating, use `--template` to pick one, or select it interactively. A single candidate is auto-selected.
+## Selection Flow
+
+```
+Resolve template source ──► detect template group ──► --template given?──► yes: use it
+                                            └── no: single candidate?──► yes: use automatically
+                                                         └── no: interactive select
+```
+
+- Passing `--template <name>`: skips prompts and uses that template directly
+- Only one candidate: used automatically
+- Multiple candidates: enters interactive selection
+
+## Usage
 
 ```bash
 # Use the admin template from a local template group
@@ -23,9 +37,16 @@ create-uni-app my-app --template-source github:owner/templates --template shop
 
 ## Template Source Shapes
 
-- **Single-template mode**: root contains `base/` directly
-- **Template-group mode**: multiple sub-directories under the root, each with `base/`
+| Shape | Detected by | Description |
+| --- | --- | --- |
+| Single-template | Root contains `base/` directly | The built-in template is this shape |
+| Template-group | Multiple sub-dirs under root, each with `base/` | Pick via `--template` or interactively |
 
-## Resolution Priority
+## Template Source Resolution Priority
 
 `--template-source` option > global config (`~/.create-uni-app/config.json`) > built-in template.
+
+## Next Steps
+
+- [Template Layout](./custom-template) — the internal structure of a template
+- [Persistent Config](../guide/config) — persist the template source

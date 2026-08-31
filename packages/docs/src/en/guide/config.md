@@ -1,6 +1,6 @@
 # Persistent Config
 
-Use the `config` sub-command to persist a template source globally so the team shares one template set.
+Persist the template source globally via the `config` sub-command so the team shares one template set.
 
 ## Usage
 
@@ -19,6 +19,11 @@ To support sandbox / restricted environments (can't write the home dir) and test
 - Use the `CREATE_UNI_APP_CONFIG_DIR` env var to specify a config directory explicitly
 - When the home dir is unwritable, it falls back to the system temp directory
 
-## Resolution Priority
+## Template Source Resolution Priority
 
 `--template-source` option > global config > built-in template.
+
+## Next Steps
+
+- [CLI Reference](./cli) — all commands and options
+- [Template Groups & --template](../template/template-group) — multi-template organization

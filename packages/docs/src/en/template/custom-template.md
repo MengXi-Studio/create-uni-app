@@ -1,6 +1,8 @@
 # Template Layout
 
-A template is a directory following a conventional structure:
+A template is a directory following a conventional structure. `create-uni-app` parses templates per this convention; a template source that doesn't follow it errors on parse.
+
+## Directory Structure
 
 ```
 <template root>/
@@ -12,13 +14,29 @@ A template is a directory following a conventional structure:
 └── features/            # feature fragments (ts/js variants: pinia|vuex · request · uni-ui · themes · router · subpackage)
 ```
 
-A template source that doesn't follow this layout errors on parse.
+## Directory Responsibilities
+
+| Directory | Responsibility |
+| --- | --- |
+| `template.json` | Preset interactive defaults (optional) |
+| `base/` | Base skeleton: static files + `${token}` placeholders |
+| `entry/` | Main entry, two variants for TS / JS |
+| `features/` | Feature fragments, organized by ts/js variant |
 
 ## base/ Placeholders
 
-`base/` files use `${token}` placeholders. Available variables:
+`base/` files use `${token}` placeholders, replaced at render time:
 
-`${safeName}`, `${ext}`, `${cssExt}`, `${uniVersion}`, `${stateImport}`, `${routerImport}`, `${easycomBlock}`, `${paletteLines}`, and more.
+| Placeholder | Description |
+| --- | --- |
+| `${safeName}` | Sanitized project name |
+| `${ext}` | `ts` / `js` |
+| `${cssExt}` | `scss` / `less` / `stylus` / `css` |
+| `${uniVersion}` | uni-app runtime version |
+| `${stateImport}` | State management import statement |
+| `${routerImport}` | Router import statement |
+| `${easycomBlock}` | uni-ui easycom config block |
+| `${paletteLines}` | Theme palette variables |
 
 ## template.json Presets
 
@@ -60,3 +78,7 @@ Supported fields (all optional):
 ## Team Sharing
 
 Point `--template-source` at your template repo and persist with `config set` so the whole team shares one template set.
+
+## Next Steps
+
+- [Template Groups & --template](./template-group) — organizing and selecting multiple templates

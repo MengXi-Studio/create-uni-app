@@ -1,15 +1,17 @@
 # Theming & Preprocessors
 
+## Why You Need It
+
+uni-app's global style injection differs by preprocessor: Sass uses the official `uni.scss` convention, while Less / Stylus require manual config. `create-uni-app` wires up "choice + dependency + global injection" in one go, and ships 4 built-in theme palettes.
+
 ## CSS Preprocessors
 
-Support Sass/Scss · Less · Stylus · Plain CSS:
-
-| Choice | Description |
-| --- | --- |
-| `scss` | Sass/Scss, most common; theme variables auto-injected via `uni.scss` |
-| `less` | Theme injected via Vite `additionalData` |
-| `stylus` | Theme injected via Vite `additionalData` |
-| `none` | Plain CSS, theme carried by CSS custom properties (`--var`) |
+| Choice | Description | Theme injection |
+| --- | --- | --- |
+| `scss` | Most common | Variables written into `uni.scss`, auto-injected globally by uni-app |
+| `less` | — | Vite `preprocessorOptions.additionalData` |
+| `stylus` | — | Vite `preprocessorOptions.additionalData` |
+| `none` | Plain CSS | CSS custom properties (`--var`), main entry imports `theme.css` |
 
 Selecting a preprocessor also injects the matching compile dependency (`sass` / `less` / `stylus`) — not installed when unused.
 
@@ -44,10 +46,14 @@ uni-color-primary = #4b3fe3
 --uni-color-primary: #4b3fe3;
 ```
 
-> Under plain CSS, picking a theme imports `@/theme.css` in the main entry.
-
 ## How It Applies
 
-- **scss**: variables go into `uni.scss`, auto-injected globally by uni-app
-- **less / stylus**: injected globally via `preprocessorOptions.additionalData` in `vite.config.js`
-- **none**: the main entry imports `theme.css`
+| Preprocessor | Chain |
+| --- | --- |
+| scss | `uni.scss` → auto-injected globally by uni-app |
+| less / stylus | `additionalData` in `vite.config.js` → auto-imports the theme into every style file |
+| none | Main entry `import '@/theme.css'` → `:root` variables available globally |
+
+## Next Steps
+
+- [State Management](./state) — state management choices

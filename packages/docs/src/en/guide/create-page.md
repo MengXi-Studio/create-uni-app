@@ -10,21 +10,32 @@ create-uni-app create order-list             # direct page name
 create-uni-app create order --subpackage pages-sub   # into a subpackage
 ```
 
+## How It Works
+
+When creating, the CLI auto-detects the project shape, then generates a matching page and registers it:
+
+```
+Detect project ──► resolve page name ──► generate .vue file ──► register route (per shape) ──► print result
+```
+
 ## Auto Detection
 
-When creating, the CLI detects:
-
-- **Script language**: TS / JS
-- **CSS preprocessor**: scss / less / stylus / css
-- **Subpackages**: whether `src/pages-sub` exists
-- **Router scheme**: traditional / manual uni-router / generatePages / generateUni
+| Detected item | Values |
+| --- | --- |
+| Script language | TS / JS |
+| CSS preprocessor | scss / less / stylus / css |
+| Subpackages | whether `src/pages-sub` exists |
+| Router scheme | traditional / manual uni-router / generatePages / generateUni |
 
 ## Route Registry
 
-- **Traditional**: registered in `src/pages.json` (main `pages` or subpackage `subPackages`)
-- **Manual uni-router**: appends a route entry to `src/router.config`
-- **generatePages / generateUni**: page file only; `pages.json` is auto-registered by the plugin
-- When subpackages exist, you choose the target interactively; duplicate registrations are deduplicated
+| Project shape | Behavior |
+| --- | --- |
+| Traditional | Registered in `src/pages.json` (main `pages` or subpackage `subPackages`) |
+| Manual uni-router | Appends a route entry to `src/router.config` |
+| generatePages / generateUni | Page file only; `pages.json` auto-registered by the plugin |
+
+When subpackages exist, you choose the target interactively; duplicate registrations are deduplicated.
 
 ## --subpackage Option
 
@@ -40,3 +51,24 @@ create-uni-app create <pageName> --subpackage <root>
 | Default | If not set, falls back to the main package `src/pages/` |
 | Interactive | When subpackages exist, asks main package vs subpackage |
 | Validation | Errors out if the given `<root>` does not exist |
+
+### Example
+
+```bash
+# Create into the src/pages-sub/ subpackage
+create-uni-app create order --subpackage pages-sub
+```
+
+Generates:
+
+```
+src/pages-sub/
+└── order/
+    └── order.vue
+```
+
+And appends a registration to `subPackages` in `pages.json` (also appends to `router.config` under the manual uni-router scheme).
+
+## Next Steps
+
+- [CLI Reference](./cli) — other commands and options
