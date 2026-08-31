@@ -1,0 +1,25 @@
+# 依赖
+node_modules/
+
+# 构建产物
+dist/
+
+# 包管理
+pnpm-lock.yaml.tmp
+pnpm-debug.log*
+yarn-error.log*
+
+# 测试与临时产物
+_smoke/
+_group/
+coverage/
+
+# 系统 / 编辑器
+.DS_Store
+*.local
+.hbuilderx/
+*.log
+
+# 环境
+.env
+.env.*
