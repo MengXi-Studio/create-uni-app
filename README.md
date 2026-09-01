@@ -73,7 +73,7 @@ pnpm run start     # 本地运行 CLI
 
 ## 更新日志
 
-📝 **[https://mengxi-studio.github.io/create-uni-app/changelog.html/](https://mengxi-studio.github.io/create-uni-app/changelog.html/)**
+📝 **[https://mengxi-studio.github.io/create-uni-app/changelog.html](https://mengxi-studio.github.io/create-uni-app/changelog.html)**
 
 ## License
 
