@@ -15,6 +15,16 @@ import { UNI_VERSION, ALL_TARGET_PLATFORMS, PLATFORM_GROUPS, PLATFORM_SCRIPTS, P
 import { copyDir, getTemplatesRoot, renderTemplate } from '@/generator/utils'
 
 /**
+ * 对象键按字母升序排序，得到稳定、标准化的依赖展示顺序。
+ *
+ * @param obj 待排序对象
+ * @returns 按键排序后的新对象
+ */
+function sortObjectByKeys<T>(obj: Record<string, T>): Record<string, T> {
+	return Object.fromEntries(Object.entries(obj).sort(([a], [b]) => a.localeCompare(b)))
+}
+
+/**
  * 按 TS/JS 选择并拷贝功能片段目录（目录结构为 features/<feature>/<ext>/...）。
  *
  * @param templatesRoot 模板根目录
@@ -261,7 +271,7 @@ function buildRouterUse(scheme: RouterScheme): string {
 }
 
 /**
- * 构建 vite.config.js 顶部 import 语句（导入对应生成插件）。
+ * 构建 vite.config(.ts/.js) 顶部 import 语句（导入对应生成插件）。
  *
  * @param scheme 路由方案
  * @returns import 语句；未使用时返回空字符串
@@ -272,7 +282,7 @@ function buildVitePluginImports(scheme: RouterScheme): string {
 }
 
 /**
- * 构建 vite.config.js plugins 数组的追加项（生成插件调用）。
+ * 构建 vite.config(.ts/.js) plugins 数组的追加项（生成插件调用）。
  *
  * @param scheme 路由方案
  * @returns 追加项（含前导逗号）；未使用时返回空字符串
@@ -283,7 +293,7 @@ function buildVitePluginList(scheme: RouterScheme): string {
 }
 
 /**
- * 构建 vite.config.js 的 css.preprocessorOptions 注入片段。
+ * 构建 vite.config(.ts/.js) 的 css.preprocessorOptions 注入片段。
  * scss 的主题经 uni.scss 由 uni-app 自动全局注入，无需配置；
  * less / stylus 需通过 additionalData 将主题文件注入每个样式文件。
  *
@@ -384,6 +394,10 @@ function mergeDependencies(projectDir: string, context: TemplateContext): void {
 
 	overwriteScripts(context, pkg)
 
+	// 统一按键排序，保证生成顺序稳定（标准输出）
+	pkg.dependencies = sortObjectByKeys(pkg.dependencies ?? {})
+	pkg.devDependencies = sortObjectByKeys(pkg.devDependencies ?? {})
+
 	fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + '\n', 'utf8')
 }
 
@@ -401,6 +415,13 @@ export function generateProject(options: CreateOptions, projectDir: string, temp
 
 	// 1. 拷贝基础骨架
 	copyDir(path.join(templatesRoot, 'base'), projectDir, render)
+	// TS 项目使用 vite.config.ts（内容与扩展名无关，vite 会自动探测 .ts 配置）
+	if (context.ext === 'ts') {
+		const viteJs = path.join(projectDir, 'vite.config.js')
+		if (fs.existsSync(viteJs)) {
+			fs.renameSync(viteJs, path.join(projectDir, 'vite.config.ts'))
+		}
+	}
 
 	// 2. 按 TS/JS 拷贝主入口（main.ts / main.js 进 src）
 	copyDir(path.join(templatesRoot, 'entry', context.ext), path.join(projectDir, 'src'), render)

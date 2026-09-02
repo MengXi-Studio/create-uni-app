@@ -54,10 +54,15 @@ function detectContext(srcDir: string, cwd: string): ProjectContext {
 	const subpackages = fs.existsSync(path.join(srcDir, 'pages-sub')) ? ['pages-sub'] : []
 
 	// pages.json 是否由插件自动生成（generatePages / generateUni）
+	// 配置文件扩展名随脚本语言：TS 项目为 vite.config.ts，JS 项目为 vite.config.js
 	let autoPages = false
-	if (fs.existsSync(path.join(cwd, 'vite.config.js'))) {
-		const viteConfig = fs.readFileSync(path.join(cwd, 'vite.config.js'), 'utf8')
-		autoPages = viteConfig.includes('generateUni') || viteConfig.includes('generatePages')
+	for (const name of ['vite.config.ts', 'vite.config.js']) {
+		const viteConfigPath = path.join(cwd, name)
+		if (fs.existsSync(viteConfigPath)) {
+			const viteConfig = fs.readFileSync(viteConfigPath, 'utf8')
+			autoPages = viteConfig.includes('generateUni') || viteConfig.includes('generatePages')
+			break
+		}
 	}
 
 	// 手动 uni-router：存在 src/router.config.ts 或 .js

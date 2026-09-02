@@ -44,9 +44,17 @@ function isNonEmpty(dir: string): boolean {
 function installDependencies(dir: string, packageManager: CreateOptions['packageManager']): void {
 	const args = packageManager === 'yarn' || packageManager === 'pnpm' ? [] : ['install']
 	const result = spawnSync(packageManager, args, { cwd: dir, stdio: 'inherit' })
-	if (result.status !== 0) {
-		throw new Error(`依赖安装失败（${packageManager}）`)
+	if (result.status === 0) return
+
+	// 保留真实失败原因，避免只给一句笼统提示
+	const hint = `请进入 ${dir} 手动执行 ${packageManager} install 查看完整报错`
+	if (result.error) {
+		// 进程无法启动（如命令不存在、缺权限），此时 status 为空
+		throw new Error(
+			`依赖安装失败（${packageManager}）：${result.error.message}。请确认 ${packageManager} 已安装且在 PATH 中。${hint}。`
+		)
 	}
+	throw new Error(`依赖安装失败（${packageManager}）：退出码 ${result.status}。${hint}。`)
 }
 
 /**
