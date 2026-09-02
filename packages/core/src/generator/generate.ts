@@ -116,7 +116,9 @@ function buildContext(options: CreateOptions): TemplateContext {
 		vitePluginImports: buildVitePluginImports(options.router),
 		vitePluginList: buildVitePluginList(options.router),
 		easycomBlock,
-		paletteLines: options.theme !== 'none' ? renderThemeVars(options.theme as Theme, options.css) : '',
+		// 主题色板行：选主题时按预处理器语法渲染；未选主题回退默认主题的 scss 色板，
+		// 保证 base/uni.scss（始终为 scss 语法）在无主题时仍有默认变量
+		paletteLines: options.theme !== 'none' ? renderThemeVars(options.theme as Theme, options.css) : renderThemeVars(Theme.Default, 'scss'),
 		// TS 专属的脚本与依赖，仅在选 TS 时注入，避免 JS 项目出现多余依赖
 		tsScripts: useTs ? ',\n    "type-check": "vue-tsc --noEmit"' : '',
 		tsDevDeps: useTs ? ',\n    "@vue/tsconfig": "^0.5.1",\n    "typescript": "^5.4.5",\n    "vue-tsc": "^2.0.13"' : '',
