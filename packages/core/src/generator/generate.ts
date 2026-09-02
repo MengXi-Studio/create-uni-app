@@ -40,6 +40,26 @@ function copyFeatureDir(templatesRoot: string, feature: string, ext: 'ts' | 'js'
 	}
 }
 
+/**
+ * 从功能片段目录中拷贝单个模板文件到目标项目（保留相对子路径，.tpl 后缀被剥离）。
+ * 用于按需生成同一功能内的特定文件（如 router/index 与 router.config 分场景拷贝）。
+ *
+ * @param templatesRoot 模板根目录
+ * @param feature 功能片段名
+ * @param ext 脚本语言扩展名
+ * @param projectDir 目标项目根目录
+ * @param relPath 相对 features/<feature>/<ext>/ 的文件路径（含 .tpl）
+ * @param render 渲染回调
+ */
+function copyFeatureFile(templatesRoot: string, feature: string, ext: 'ts' | 'js', projectDir: string, relPath: string, render: (content: string) => string): void {
+	const src = path.join(templatesRoot, 'features', feature, ext, relPath)
+	if (!fs.existsSync(src)) return
+	const destName = path.basename(relPath).endsWith('.tpl') ? path.basename(relPath).slice(0, -'.tpl'.length) : path.basename(relPath)
+	const dest = path.join(projectDir, path.dirname(relPath), destName)
+	fs.mkdirSync(path.dirname(dest), { recursive: true })
+	fs.writeFileSync(dest, render(fs.readFileSync(src, 'utf8')), 'utf8')
+}
+
 /** 各预处理器在模板 `<style lang>` 中使用的后缀 */
 const CSS_EXT: Record<CssPreprocessor, 'scss' | 'less' | 'stylus' | 'css'> = {
 	scss: 'scss',
@@ -110,13 +130,17 @@ function buildContext(options: CreateOptions): TemplateContext {
 		statePersistOption: buildStatePersistOption(options.state),
 		statePersistImport: buildStatePersistImport(options.state),
 		statePersistPlugins: buildStatePersistPlugins(options.state),
+		statePersistStoreImport: buildStatePersistStoreImport(options.state),
+		statePersistStoreUse: buildStatePersistStoreUse(options.state),
 		routerImport: buildRouterImport(options.router),
 		routerSetup: buildRouterSetup(options.router),
 		routerUse: buildRouterUse(options.router),
 		vitePluginImports: buildVitePluginImports(options.router),
 		vitePluginList: buildVitePluginList(options.router),
 		easycomBlock,
-		paletteLines: options.theme !== 'none' ? renderThemeVars(options.theme as Theme, options.css) : '',
+		// 主题色板行：选主题时按预处理器语法渲染；未选主题回退默认主题的 scss 色板，
+		// 保证 base/uni.scss（始终为 scss 语法）在无主题时仍有默认变量
+		paletteLines: options.theme !== 'none' ? renderThemeVars(options.theme as Theme, options.css) : renderThemeVars(Theme.Default, 'scss'),
 		// TS 专属的脚本与依赖，仅在选 TS 时注入，避免 JS 项目出现多余依赖
 		tsScripts: useTs ? ',\n    "type-check": "vue-tsc --noEmit"' : '',
 		tsDevDeps: useTs ? ',\n    "@vue/tsconfig": "^0.5.1",\n    "typescript": "^5.4.5",\n    "vue-tsc": "^2.0.13"' : '',
@@ -142,32 +166,24 @@ function isStatePersist(state: StateManager): boolean {
  */
 function buildStateImport(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		const lines = ["import { createPinia } from 'pinia';"]
-		if (isStatePersist(state)) {
-			lines.push("import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';")
-		}
-		return lines.join('\n') + '\n'
+		return "import { createPiniaStore } from './stores'\n"
 	}
 	if (state === 'vuex' || state === 'vuex-persist') {
-		return "import store from './store';\n"
+		return "import store from './stores'\n"
 	}
 	return ''
 }
 
 /**
- * 构建状态管理在 createApp 之前的实例/插件初始化语句。
- * Pinia 需创建实例并（启用持久化时）注册持久化插件；Vuex 的持久化在 store 内配置。
+ * 构建状态管理在 createApp 之前的实例初始化语句。
+ * Pinia 实例由 stores/index 的 createPiniaStore 创建；Vuex 的持久化在 store 内配置。
  *
  * @param state 状态管理方案
  * @returns 初始化语句（含前后换行）；none 时返回空字符串
  */
 function buildStateSetup(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		const lines = ['const pinia = createPinia();']
-		if (isStatePersist(state)) {
-			lines.push('pinia.use(piniaPluginPersistedstate);')
-		}
-		return '\n' + lines.join('\n') + '\n'
+		return '\nconst pinia = createPiniaStore()\n'
 	}
 	return ''
 }
@@ -180,12 +196,32 @@ function buildStateSetup(state: StateManager): string {
  */
 function buildStateUse(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		return '\n  app.use(pinia);\n'
+		return '\n  app.use(pinia)\n'
 	}
 	if (state === 'vuex' || state === 'vuex-persist') {
-		return '\n  app.use(store);\n'
+		return '\n  app.use(store)\n'
 	}
 	return ''
+}
+
+/**
+ * 构建 Pinia stores/index 顶部的持久化插件 import 语句（仅启用持久化时）。
+ *
+ * @param state 状态管理方案
+ * @returns import 语句；未启用持久化时返回空字符串
+ */
+function buildStatePersistStoreImport(state: StateManager): string {
+	return isStatePersist(state) ? "import piniaPersist from 'pinia-plugin-persistedstate'" : ''
+}
+
+/**
+ * 构建 Pinia stores/index 中持久化插件的注册语句（仅启用持久化时）。
+ *
+ * @param state 状态管理方案
+ * @returns 注册语句；未启用持久化时返回空字符串
+ */
+function buildStatePersistStoreUse(state: StateManager): string {
+	return isStatePersist(state) ? '\n  pinia.use(piniaPersist)' : ''
 }
 
 /**
@@ -199,13 +235,13 @@ function buildStatePersistOption(state: StateManager): string {
 }
 
 /**
- * 构建 Vuex store 的持久化插件 import 语句。
+ * 构建 Vuex store 的持久化插件 import 语句（并入 createStore 所在行，避免空行）。
  *
  * @param state 状态管理方案
- * @returns import 语句；未启用持久化时返回空字符串
+ * @returns import 语句（含换行前缀）；未启用持久化时返回空字符串
  */
 function buildStatePersistImport(state: StateManager): string {
-	return isStatePersist(state) ? "import createPersistedState from 'vuex-persistedstate';" : ''
+	return isStatePersist(state) ? "\nimport createPersistedState from 'vuex-persistedstate'" : ''
 }
 
 /**
@@ -240,24 +276,25 @@ function usesGeneratePlugin(scheme: RouterScheme): boolean {
 
 /**
  * 构建 uni-router 在 main 入口 import 区的注入语句。
+ * 实例与守卫封装在 src/router/index，main 只需按需引入实例。
  *
  * @param scheme 路由方案
  * @returns import 语句；未启用 uni-router 时返回空字符串
  */
 function buildRouterImport(scheme: RouterScheme): string {
 	if (!usesRouter(scheme)) return ''
-	return "import { createRouter, ParamsPlugin, ChannelPlugin, InterceptorPlugin } from '@meng-xi/uni-router';\n" + "import routes from './router.config';\n"
+	return "import router from './router'\n"
 }
 
 /**
- * 构建 uni-router 的 router 实例创建语句（注入 main 入口顶层）。
+ * 构建 uni-router 的 router 实例创建语句。
+ * 实例已移入 src/router/index（含全局守卫），此处无需再注入创建语句。
  *
  * @param scheme 路由方案
- * @returns 创建语句；未启用 uni-router 时返回空字符串
+ * @returns 空字符串
  */
-function buildRouterSetup(scheme: RouterScheme): string {
-	if (!usesRouter(scheme)) return ''
-	return ['const router = createRouter({', '  routes,', '  plugins: [ParamsPlugin, ChannelPlugin, InterceptorPlugin],', '  interceptUniApi: true,', '});', ''].join('\n')
+function buildRouterSetup(_scheme: RouterScheme): string {
+	return ''
 }
 
 /**
@@ -267,7 +304,7 @@ function buildRouterSetup(scheme: RouterScheme): string {
  * @returns app.use 语句；未启用 uni-router 时返回空字符串
  */
 function buildRouterUse(scheme: RouterScheme): string {
-	return usesRouter(scheme) ? '\n  app.use(router);\n' : ''
+	return usesRouter(scheme) ? '\n  app.use(router)\n' : ''
 }
 
 /**
@@ -454,10 +491,15 @@ export function generateProject(options: CreateOptions, projectDir: string, temp
 		copyFeatureDir(templatesRoot, feature, context.ext, projectDir, render)
 	}
 
-	// 6.5 纯 uni-router 方案（无 vite 生成插件）：提供手写路由配置示例；
-	//     generateRouter / generateUni 方案的路由配置由插件从 pages.json 自动生成
+	// 6.5 路由方案：
+	//     - 所有启用 uni-router 的方案（router / router-generate / uni）生成 src/router（index 创建实例 + guards 全局守卫）
+	//     - 仅纯 uni-router 方案（router）提供手写 src/router.config 示例，
+	//       generateRouter / generateUni 的路由配置由 vite 插件从 pages.json 自动生成
+	if (usesRouter(context.router)) {
+		copyDir(path.join(templatesRoot, 'features', 'router', context.ext, 'src/router'), path.join(projectDir, 'src/router'), render)
+	}
 	if (context.router === 'router') {
-		copyFeatureDir(templatesRoot, 'router', context.ext, projectDir, render)
+		copyFeatureFile(templatesRoot, 'router', context.ext, projectDir, `src/router.config.${context.ext}.tpl`, render)
 	}
 
 	// 6.6 generatePages / generateUni 方案：生成一个子包页面示例，

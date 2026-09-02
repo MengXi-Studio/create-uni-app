@@ -4,8 +4,7 @@
  * 选择「Vuex + 持久化」时自动注入 vuex-persistedstate 插件，
  * state 将同步到本地存储（默认 localStorage）。
  */
-import { createStore } from 'vuex'
-${statePersistImport}
+import { createStore } from 'vuex'${statePersistImport}
 
 export default createStore({
   state() {

@@ -51,7 +51,7 @@ uni-color-primary = #4b3fe3
 | 预处理器 | 生效链路 |
 | --- | --- |
 | scss | `uni.scss` → uni-app 自动全局注入 |
-| less / stylus | `vite.config.js` 的 `additionalData` → 每个样式文件自动 import 主题 |
+| less / stylus | `vite.config` 的 `additionalData` → 每个样式文件自动 import 主题 |
 | none | 主入口 `import '@/theme.css'` → `:root` 变量全局可用 |
 
 ## 下一步

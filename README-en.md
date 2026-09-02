@@ -23,12 +23,23 @@ no extra files or dependencies.
 ## Features
 
 - **Interactive creation**: project name → script language → CSS preprocessor → built-in theme → state management → router scheme → target platforms → optional features → package manager
+
 - **On-demand multi-platform**: supports all uni-app platforms with quick group options ("All platforms" / "Mini programs" / "Quick Apps")
-- **TS / JS optional**: `tsconfig.json` for TS, `jsconfig.json` for JS — mutually exclusive
+
+- **TS / JS optional**: TS generates `tsconfig.json` + `vite.config.ts`, JS generates `jsconfig.json` + `vite.config.js` — build config adapts automatically
+
 - **Built-in themes**: Default Purple / Blue / Green / Orange, working with Sass / Less / Stylus / plain CSS
-- **State management**: Pinia or Vuex, each with optional state persistence
-- **Router / page schemes**: uni-router, generateRouter, generatePages, generateUni (mutually exclusive)
+
+- **State management**: Pinia or Vuex, each with optional persistence; both are encapsulated under a unified `stores/` directory (Pinia created via `createPiniaStore()` which also registers the plugin), keeping the entry
+	clean
+
+- **Router / page schemes**: uni-router, generateRouter, generatePages, generateUni (mutually exclusive). Pure uni-router generates a `src/router` directory — `index` creates the instance and `guards` ships global
+	`beforeEach` / `afterEach` examples — while the entry only does `import router` + `app.use(router)`
+
 - **Optional features**: request wrapper + auth, uni-ui component library (easycom on demand)
+
+- **Clean output**: dependencies are sorted alphabetically; the uni-app runtime version defaults to the official Vue3 channel, synced to latest via `npx @dcloudio/uvm@latest`
+
 - **Companion commands**: `create` (add page), `info` (diagnose), `config` (persist template source)
 
 ## Quick Start

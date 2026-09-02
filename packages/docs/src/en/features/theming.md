@@ -51,7 +51,7 @@ uni-color-primary = #4b3fe3
 | Preprocessor | Chain |
 | --- | --- |
 | scss | `uni.scss` → auto-injected globally by uni-app |
-| less / stylus | `additionalData` in `vite.config.js` → auto-imports the theme into every style file |
+| less / stylus | `additionalData` in `vite.config` → auto-imports the theme into every style file |
 | none | Main entry `import '@/theme.css'` → `:root` variables available globally |
 
 ## Next Steps

@@ -78,6 +78,10 @@ export interface TemplateContext extends CreateOptions {
 	statePersistImport: string
 	/** vuex store 的 plugins 配置行（仅带持久化时注入） */
 	statePersistPlugins: string
+	/** Pinia stores/index 的持久化插件 import 语句（仅带持久化时注入） */
+	statePersistStoreImport: string
+	/** Pinia stores/index 中持久化插件的注册语句（仅带持久化时注入） */
+	statePersistStoreUse: string
 	/** uni-router 的 import 语句（勾选时注入 main 入口） */
 	routerImport: string
 	/** uni-router 的 router 实例创建语句（勾选时注入 main 入口顶层） */

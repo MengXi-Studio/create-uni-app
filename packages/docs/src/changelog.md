@@ -2,6 +2,39 @@
 
 本项目的变更记录遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.1.0] - 2026-09-01
+
+> 结构化生成：状态管理、路由实例与守卫分文件封装，主入口保持干净；TS 项目使用 `vite.config.ts`。
+
+### ✨ 新特性
+
+#### 状态管理
+
+- Pinia 结构化封装：新增 `stores/index`，通过 `createPiniaStore()` 创建实例并注册持久化插件，主入口只保留 `app.use(pinia)`
+- Pinia / Vuex 状态目录统一为 `stores/`（原 Vuex 使用 `store`），主入口引用一致
+
+#### 路由 / 页面方案
+
+- 生成 `src/router` 目录：`index` 创建路由实例，`guards` 内置 `beforeEach` / `afterEach` 全局守卫示例
+- 主入口只 `import router from './router'` + `app.use(router)`，不再内联创建逻辑
+- 纯 uni-router 方案仍额外生成手写 `src/router.config`
+
+#### 语言选型
+
+- TS 项目生成 `vite.config.ts`（JS 仍为 `vite.config.js`），构建配置随脚本语言自动适配
+
+### 🔧 改进
+
+- `package.json` 的 `dependencies` 与 `devDependencies` 按字母序标准化输出
+- 更新默认 uni-app 运行时版本至官方 Vue3 通道（可用 `npx @dcloudio/uvm@latest` 对齐最新）
+
+### 🐛 修复
+
+- 依赖自动安装失败时输出真实退出码 / 启动错误及手动重试指引，便于定位根因
+- 修复 Vuex 不启用持久化时 `stores/index` 中多余空行
+
+---
+
 ## [1.0.0] - 2026-09-01
 
 > 首个正式版本。基于 uni-app + Vue3 + Vite 的交互式脚手架 CLI，通过命令行对话按需生成 uni-app 工程。
