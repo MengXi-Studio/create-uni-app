@@ -1,7 +1,7 @@
 {
 	"name": "create-uni-app",
 	"type": "module",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"private": false,
 	"description": "基于 uni-app 的交互式脚手架 CLI，按需生成 uni-app 基础项目与可选功能",
 	"packageManager": "pnpm@10.31.0",
