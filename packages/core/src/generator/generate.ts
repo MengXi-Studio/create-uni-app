@@ -110,6 +110,8 @@ function buildContext(options: CreateOptions): TemplateContext {
 		statePersistOption: buildStatePersistOption(options.state),
 		statePersistImport: buildStatePersistImport(options.state),
 		statePersistPlugins: buildStatePersistPlugins(options.state),
+		statePersistStoreImport: buildStatePersistStoreImport(options.state),
+		statePersistStoreUse: buildStatePersistStoreUse(options.state),
 		routerImport: buildRouterImport(options.router),
 		routerSetup: buildRouterSetup(options.router),
 		routerUse: buildRouterUse(options.router),
@@ -144,32 +146,24 @@ function isStatePersist(state: StateManager): boolean {
  */
 function buildStateImport(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		const lines = ["import { createPinia } from 'pinia';"]
-		if (isStatePersist(state)) {
-			lines.push("import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';")
-		}
-		return lines.join('\n') + '\n'
+		return "import { createPiniaStore } from './stores'\n"
 	}
 	if (state === 'vuex' || state === 'vuex-persist') {
-		return "import store from './store';\n"
+		return "import store from './stores'\n"
 	}
 	return ''
 }
 
 /**
- * 构建状态管理在 createApp 之前的实例/插件初始化语句。
- * Pinia 需创建实例并（启用持久化时）注册持久化插件；Vuex 的持久化在 store 内配置。
+ * 构建状态管理在 createApp 之前的实例初始化语句。
+ * Pinia 实例由 stores/index 的 createPiniaStore 创建；Vuex 的持久化在 store 内配置。
  *
  * @param state 状态管理方案
  * @returns 初始化语句（含前后换行）；none 时返回空字符串
  */
 function buildStateSetup(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		const lines = ['const pinia = createPinia();']
-		if (isStatePersist(state)) {
-			lines.push('pinia.use(piniaPluginPersistedstate);')
-		}
-		return '\n' + lines.join('\n') + '\n'
+		return '\nconst pinia = createPiniaStore()\n'
 	}
 	return ''
 }
@@ -182,12 +176,32 @@ function buildStateSetup(state: StateManager): string {
  */
 function buildStateUse(state: StateManager): string {
 	if (state === 'pinia' || state === 'pinia-persist') {
-		return '\n  app.use(pinia);\n'
+		return '\n  app.use(pinia)\n'
 	}
 	if (state === 'vuex' || state === 'vuex-persist') {
-		return '\n  app.use(store);\n'
+		return '\n  app.use(store)\n'
 	}
 	return ''
+}
+
+/**
+ * 构建 Pinia stores/index 顶部的持久化插件 import 语句（仅启用持久化时）。
+ *
+ * @param state 状态管理方案
+ * @returns import 语句；未启用持久化时返回空字符串
+ */
+function buildStatePersistStoreImport(state: StateManager): string {
+	return isStatePersist(state) ? "import piniaPersist from 'pinia-plugin-persistedstate'" : ''
+}
+
+/**
+ * 构建 Pinia stores/index 中持久化插件的注册语句（仅启用持久化时）。
+ *
+ * @param state 状态管理方案
+ * @returns 注册语句；未启用持久化时返回空字符串
+ */
+function buildStatePersistStoreUse(state: StateManager): string {
+	return isStatePersist(state) ? '\n  pinia.use(piniaPersist)' : ''
 }
 
 /**
@@ -201,13 +215,13 @@ function buildStatePersistOption(state: StateManager): string {
 }
 
 /**
- * 构建 Vuex store 的持久化插件 import 语句。
+ * 构建 Vuex store 的持久化插件 import 语句（并入 createStore 所在行，避免空行）。
  *
  * @param state 状态管理方案
- * @returns import 语句；未启用持久化时返回空字符串
+ * @returns import 语句（含换行前缀）；未启用持久化时返回空字符串
  */
 function buildStatePersistImport(state: StateManager): string {
-	return isStatePersist(state) ? "import createPersistedState from 'vuex-persistedstate';" : ''
+	return isStatePersist(state) ? "\nimport createPersistedState from 'vuex-persistedstate'" : ''
 }
 
 /**

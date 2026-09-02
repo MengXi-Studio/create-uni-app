@@ -35,12 +35,12 @@ Pinia or Vuex, each with optional state persistence. Once chosen, the main entry
 
 | Scheme | Injection |
 | --- | --- |
-| Pinia | `createPinia()`, `pinia.use(piniaPluginPersistedstate)` when persisted, `app.use(pinia)` |
-| Vuex | `import store from './store'`; persistence configured inside `store/index.ts` via `plugins: [createPersistedState()]` |
+| Pinia | `import { createPiniaStore } from './stores'`, `const pinia = createPiniaStore()`, persistence plugin registered inside `stores/index.ts`, `app.use(pinia)` |
+| Vuex | `import store from './stores'`; persistence configured inside `stores/index.ts` via `plugins: [createPersistedState()]` |
 
-> Vuex persistence is configured inside the store; Pinia registers its persistence plugin on the `createPinia` instance — different injection points.
+> Both Vuex and Pinia configure persistence inside `stores/index`: Pinia registers its plugin via `createPiniaStore`, Vuex via the `plugins` option — different injection points but the same directory.
 
-A `store/counter` example is generated for easy extension.
+A `stores/counter` example is generated for easy extension.
 
 ## Next Steps
 
