@@ -1,6 +1,6 @@
 # 路由方案
 
-路由 / 页面生成方案互斥选一，涵盖从「原生跳转」到「现代化全自动」的完整演进。选定后自动注入主入口、`vite.config.js` 及对应依赖。
+路由 / 页面生成方案互斥选一，涵盖从「原生跳转」到「现代化全自动」的完整演进。选定后自动注入主入口、`vite.config` 及对应依赖。
 
 ## 演进对照
 
@@ -35,7 +35,7 @@
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | uni-router 系                | 生成 `src/router` 目录（`index` 创建 `createRouter({ routes, plugins, interceptUniApi })`，`guards` 内置全局守卫 `beforeEach` / `afterEach` 示例），主入口只注入 `import router from './router'` 与 `app.use(router)` |
 | 纯 uni-router（无生成插件）         | 额外生成手写 `src/router.config` 示例                                                                                                                                                                |
-| generatePages / generateUni | 向 `vite.config.js` 注入对应生成插件，并生成 `pages-sub` 子包页面示例                                                                                                                                           |
+| generatePages / generateUni | 向 `vite.config` 注入对应生成插件，并生成 `pages-sub` 子包页面示例 |                                                                                                                                          |
 
 ## 说明
 

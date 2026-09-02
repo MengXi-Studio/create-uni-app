@@ -31,12 +31,24 @@ A template is a directory following a conventional structure. `create-uni-app` p
 | --- | --- |
 | `${safeName}` | Sanitized project name |
 | `${ext}` | `ts` / `js` |
-| `${cssExt}` | `scss` / `less` / `stylus` / `css` |
+| `${cssExt}` | Style suffix: `scss` / `less` / `stylus` / `css` |
 | `${uniVersion}` | uni-app runtime version |
-| `${stateImport}` | State management import statement |
-| `${routerImport}` | Router import statement |
+| `${themeImport}` | Statement importing the global theme in the entry (plain CSS themes) |
+| `${cssPreprocessorConfig}` | vite.config css injection (less/stylus global theme) |
+| `${stateImport}` | State main import (Pinia imports `createPiniaStore` from `./stores`) |
+| `${stateSetup}` | State init statement (e.g. `const pinia = createPiniaStore()`) |
+| `${stateUse}` | `app.use(pinia)` / `app.use(store)` injection |
+| `${statePersistStoreImport}` | Pinia `stores/index` persistence plugin import |
+| `${statePersistStoreUse}` | Pinia `stores/index` plugin registration statement |
+| `${routerImport}` | Entry imports the router instance: `import router from './router'` |
+| `${routerSetup}` | Router creation statement (encapsulated in `src/router/index` + `guards`, not needed in the entry) |
+| `${routerUse}` | `app.use(router)` injection |
+| `${vitePluginImports}` | Generative plugin imports at the top of vite.config |
+| `${vitePluginList}` | vite.config plugins array additions (generative plugin calls) |
 | `${easycomBlock}` | uni-ui easycom config block |
 | `${paletteLines}` | Theme palette variables |
+
+> Placeholders are injected by `buildContext`; the `TemplateContext` type is authoritative for the full set.
 
 ## template.json Presets
 

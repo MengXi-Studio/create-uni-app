@@ -1,6 +1,6 @@
 # Router Schemes
 
-Router / page generation schemes are mutually exclusive, covering the full path from "native navigation" to a modern fully-automatic setup. Once chosen, the main entry, `vite.config.js`, and matching dependencies are auto-injected.
+Router / page generation schemes are mutually exclusive, covering the full path from "native navigation" to a modern fully-automatic setup. Once chosen, the main entry, `vite.config`, and matching dependencies are auto-injected.
 
 ## Evolution Overview
 
@@ -35,7 +35,7 @@ Router / page generation schemes are mutually exclusive, covering the full path 
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | uni-router family | Generates a `src/router` directory (`index` creates `createRouter({ routes, plugins, interceptUniApi })`, `guards` holds the global guard `beforeEach` / `afterEach` examples); the main entry only injects `import router from './router'` and `app.use(router)` |
 | Pure uni-router (no plugin) | Also generates a handwritten `src/router.config` example                                                                                                                                                                              |
-| generatePages / generateUni | Injects the matching plugin into `vite.config.js` and generates a `pages-sub` subpackage example                                                                                                                                      |
+| generatePages / generateUni | Injects the matching plugin into `vite.config` and generates a `pages-sub` subpackage example |                                                                                                                                     |
 
 ## Notes
 

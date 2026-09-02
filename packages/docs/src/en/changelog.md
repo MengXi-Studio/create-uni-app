@@ -2,6 +2,39 @@
 
 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [1.1.0] - 2026-09-01
+
+> Structured generation: state management, the router instance and its guards are split into separate files so the entry stays clean; TS projects use `vite.config.ts`.
+
+### ✨ New Features
+
+#### State Management
+
+- Pinia structured encapsulation: new `stores/index` creates the instance via `createPiniaStore()` and registers the persistence plugin; the entry keeps only `app.use(pinia)`
+- Pinia / Vuex now share a unified `stores/` directory (Vuex previously used `store`), with consistent entry references
+
+#### Router / Page Schemes
+
+- Generates a `src/router` directory: `index` creates the router instance and `guards` ships global `beforeEach` / `afterEach` guard examples
+- The entry only does `import router from './router'` + `app.use(router)` instead of inlining the creation logic
+- Pure uni-router still generates a handwritten `src/router.config`
+
+#### Language Choice
+
+- TS projects generate `vite.config.ts` (JS keeps `vite.config.js`), so build config adapts to the script language
+
+### 🔧 Improvements
+
+- `dependencies` and `devDependencies` in `package.json` are sorted alphabetically for cleaner output
+- Updated the default uni-app runtime version to the official Vue3 channel (sync to latest via `npx @dcloudio/uvm@latest`)
+
+### 🐛 Fixes
+
+- Dependency auto-install now surfaces the real exit code / spawn error plus a manual-retry hint for easier diagnosis
+- Fixed a stray blank line in `stores/index` when Vuex persistence is disabled
+
+---
+
 ## [1.0.0] - 2026-09-01
 
 > First stable release. An interactive scaffolding CLI built on uni-app + Vue3 + Vite that generates a uni-app project on demand through a command-line dialogue.
