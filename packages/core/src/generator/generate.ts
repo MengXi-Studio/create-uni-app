@@ -452,6 +452,10 @@ export function generateProject(options: CreateOptions, projectDir: string, temp
 
 	// 1. 拷贝基础骨架
 	copyDir(path.join(templatesRoot, 'base'), projectDir, render)
+	// uni.scss 专用于 scss 方案的全局变量混入；less/stylus 走 vite additionalData，原生 CSS 走 theme.css
+	if (context.css !== 'scss') {
+		fs.rmSync(path.join(projectDir, 'src/uni.scss'), { force: true })
+	}
 	// TS 项目使用 vite.config.ts（内容与扩展名无关，vite 会自动探测 .ts 配置）
 	if (context.ext === 'ts') {
 		const viteJs = path.join(projectDir, 'vite.config.js')

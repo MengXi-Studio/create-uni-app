@@ -46,13 +46,13 @@ During generation, only the **template fragments** matching your chosen language
 
 ## Feature Highlights
 
-- 🧩 **Interactive creation** — project name → language → preprocessor → theme → state → router → platforms → features → package manager
-- 🌐 **On-demand platforms** — covers all uni-app platforms with group shortcuts
+- 🧩 **Interactive creation** — project name → language → preprocessor → state → router → platforms → features → package manager
+- 🌐 **On-demand platforms** — covers all uni-app platforms with group shortcuts; shortcuts and concrete platforms are mutually exclusive
 - 🃏 **TS / JS** — mutually exclusive, each generating its own project config files
-- 🎨 **Built-in themes** — Default Purple / Blue / Green / Orange, working with Sass/Less/Stylus/plain CSS
+- 🎨 **Built-in theme (optional)** — an optional feature; pick a palette (Default Purple / Blue / Green / Orange) after enabling, working with Sass/Less/Stylus/plain CSS
 - 🗃️ **State management** — Pinia / Vuex (both with persistence) auto-injected
 - 🧭 **Router schemes** — uni-router / generateRouter / generatePages / generateUni, mutually exclusive
-- 📦 **Optional features** — request wrapper + auth, uni-ui (easycom)
+- 📦 **Optional features** — built-in theme, request wrapper + auth, uni-ui (easycom, requires Sass/Scss)
 - 🛠️ **Companion commands** — `create` (add page), `info` (diagnose), `config` (persist template source)
 
 ## What It Is Not

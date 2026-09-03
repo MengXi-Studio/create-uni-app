@@ -19,13 +19,13 @@ hero:
 features:
   - icon: 🧩
     title: Interactive Creation
-    details: Project name → script language → CSS preprocessor → theme → state → router → platforms → features → package manager.
+    details: Project name → script language → CSS preprocessor → state → router → platforms → features → package manager.
   - icon: 🌐
     title: On-Demand Platforms
-    details: Supports all uni-app platforms with quick groups ("All" / "Mini programs" / "Quick Apps").
+    details: Supports all uni-app platforms with quick groups ("All" / "Mini programs" / "Quick Apps"); groups and concrete platforms are mutually exclusive.
   - icon: 🎨
-    title: Built-in Themes
-    details: Default Purple / Blue / Green / Orange, working with Sass / Less / Stylus / plain CSS.
+    title: Built-in Theme (optional)
+    details: An optional feature — check it to pick a palette (Default Purple / Blue / Green / Orange), working with Sass / Less / Stylus / plain CSS.
   - icon: 🗃️
     title: State Management
     details: Pinia or Vuex, each with optional state persistence.

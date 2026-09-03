@@ -2,6 +2,26 @@
 
 本项目的变更记录遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.0] - 2026-09-03
+
+> 交互体验优化：内置主题可选、目标平台分组互斥、uni-ui 按预处理器联动。
+
+### ✨ 新特性
+
+#### 交互体验
+
+- 内置主题改为**可选功能**：不再作为必选步骤，并入"可选功能"多选，勾选后再挑色板（默认紫/清新蓝/自然绿/温暖橙）
+
+- 目标平台**分组互斥**：勾选「全部端 / 小程序(全部) / 快应用(全部)」时，其覆盖的具体平台自动禁用，避免重复勾选
+
+- uni-ui 组件库**按预处理器联动**：未选择 Sass/Scss 时自动禁用该选项并提示
+
+### 🐛 修复
+
+- 非 scss 方案（Less / Stylus / 原生 CSS）不再生成无用的 `uni.scss`
+
+---
+
 ## [1.1.0] - 2026-09-01
 
 > 结构化生成：状态管理、路由实例与守卫分文件封装，主入口保持干净；TS 项目使用 `vite.config.ts`。
@@ -11,12 +31,15 @@
 #### 状态管理
 
 - Pinia 结构化封装：新增 `stores/index`，通过 `createPiniaStore()` 创建实例并注册持久化插件，主入口只保留 `app.use(pinia)`
+
 - Pinia / Vuex 状态目录统一为 `stores/`（原 Vuex 使用 `store`），主入口引用一致
 
 #### 路由 / 页面方案
 
 - 生成 `src/router` 目录：`index` 创建路由实例，`guards` 内置 `beforeEach` / `afterEach` 全局守卫示例
+
 - 主入口只 `import router from './router'` + `app.use(router)`，不再内联创建逻辑
+
 - 纯 uni-router 方案仍额外生成手写 `src/router.config`
 
 #### 语言选型
@@ -26,11 +49,13 @@
 ### 🔧 改进
 
 - `package.json` 的 `dependencies` 与 `devDependencies` 按字母序标准化输出
+
 - 更新默认 uni-app 运行时版本至官方 Vue3 通道（可用 `npx @dcloudio/uvm@latest` 对齐最新）
 
 ### 🐛 修复
 
 - 依赖自动安装失败时输出真实退出码 / 启动错误及手动重试指引，便于定位根因
+
 - 修复 Vuex 不启用持久化时 `stores/index` 中多余空行
 
 ---
@@ -44,60 +69,79 @@
 #### 交互式创建
 
 - 完整的交互问答流程：项目名 → 脚本语言 → CSS 预处理器 → 内置主题 → 状态管理 → 路由方案 → 目标平台 → 可选功能 → 包管理器 → 是否自动安装依赖
+
 - 项目名自动清洗为合法的 npm 安全名（小写字母 / 数字 / 中划线）
+
 - 支持命令行直接指定项目名，后续仍可在问答中修改
 
 #### 多平台按需
 
 - 覆盖全部 uni-app 编译平台（H5、App、9 个小程序、3 个快应用）
+
 - 提供「全部端 / 小程序(全部) / 快应用(全部)」分组快捷勾选
+
 - 按所选平台自动生成 `dev:*` / `build:*` 脚本，全端模式额外生成 custom 与 SSR 脚本
+
 - `manifest.json` 按所选平台精简，单选时只保留对应配置块
 
 #### 语言选型
 
 - TypeScript / JavaScript 双选，互斥生成
+
 - TS 生成 `tsconfig.json` 并注入类型检查（`vue-tsc`）；JS 生成 `jsconfig.json`
 
 #### 主题与样式
 
 - 内置 4 套主题色板：默认紫 / 清新蓝 / 自然绿 / 温暖橙
+
 - 兼容 Sass / Less / Stylus / 原生 CSS（CSS 变量）
+
 - 按所选预处理器自动注入对应的全局样式依赖与混入方式
 
 #### 状态管理
 
 - Pinia / Vuex 二选一，均支持可选状态持久化
+
 - 自动向主入口注入 store，并生成 counter 示例
 
 #### 路由 / 页面方案
 
 - uni-router、generateRouter、generatePages、generateUni 组合互斥可选
+
 - 按方案自动注入主入口路由配置、`vite.config.js` 生成插件及对应依赖
 
 #### 可选集成
 
 - 请求封装 + 登录鉴权（统一拦截、token、守卫、示例 API）
+
 - uni-ui 组件库（easycom 按需引入）与示例页面
 
 #### 配套命令
 
 - `create` 建页：自动探测工程形态并注册路由 / 分销包
+
 - `info` 诊断：打印环境与项目信息
+
 - `config`：持久化 / 查看 / 清除模板源
 
 #### 自定义模板
 
 - 自定义模板源：本地目录或 git 仓库（`github:` / `gitlab:` / git url）
+
 - 模板组组织与 `--template` 指定
+
 - `template.json` 预填交互默认值
+
 - 基于 `${token}` 占位符的渲染引擎
 
 ### 🛠 工程化
 
 - pnpm workspace monorepo：`packages/core`（CLI）+ `packages/docs`（VitePress 文档站）
+
 - 文档站支持中英双语（`/` 中文、`/en/` 英文）
+
 - ESLint（flat config + Prettier）代码规范
+
 - TypeScript 类型检查
 
 ---

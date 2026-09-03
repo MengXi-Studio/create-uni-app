@@ -22,13 +22,13 @@ no extra files or dependencies.
 
 ## Features
 
-- **Interactive creation**: project name → script language → CSS preprocessor → built-in theme → state management → router scheme → target platforms → optional features → package manager
+- **Interactive creation**: project name → script language → CSS preprocessor → state management → router scheme → target platforms → optional features → package manager
 
-- **On-demand multi-platform**: supports all uni-app platforms with quick group options ("All platforms" / "Mini programs" / "Quick Apps")
+- **On-demand multi-platform**: supports all uni-app platforms with quick group options ("All platforms" / "Mini programs" / "Quick Apps"); selecting a group auto-disables the covered options to avoid redundancy
 
 - **TS / JS optional**: TS generates `tsconfig.json` + `vite.config.ts`, JS generates `jsconfig.json` + `vite.config.js` — build config adapts automatically
 
-- **Built-in themes**: Default Purple / Blue / Green / Orange, working with Sass / Less / Stylus / plain CSS
+- **Built-in theme (optional)**: part of the optional features; pick a palette (Default Purple / Blue / Green / Orange) after enabling, working with Sass / Less / Stylus / plain CSS
 
 - **State management**: Pinia or Vuex, each with optional persistence; both are encapsulated under a unified `stores/` directory (Pinia created via `createPiniaStore()` which also registers the plugin), keeping the entry
 	clean
@@ -36,7 +36,7 @@ no extra files or dependencies.
 - **Router / page schemes**: uni-router, generateRouter, generatePages, generateUni (mutually exclusive). Pure uni-router generates a `src/router` directory — `index` creates the instance and `guards` ships global
 	`beforeEach` / `afterEach` examples — while the entry only does `import router` + `app.use(router)`
 
-- **Optional features**: request wrapper + auth, uni-ui component library (easycom on demand)
+- **Optional features**: built-in theme, request wrapper + auth, uni-ui component library (easycom on demand); uni-ui depends on Sass/Scss and is auto-disabled otherwise
 
 - **Clean output**: dependencies are sorted alphabetically; the uni-app runtime version defaults to the official Vue3 channel, synced to latest via `npx @dcloudio/uvm@latest`
 

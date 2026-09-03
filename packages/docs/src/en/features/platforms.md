@@ -13,7 +13,7 @@ Supports all uni-app compile platforms. Once you pick platforms, the `dev:*` / `
 
 ## Group Shortcuts
 
-Platform multi-select provides three shortcuts, expanded into concrete platforms by the generator:
+Platform multi-select provides three shortcuts, expanded into concrete platforms by the generator. Shortcuts and concrete platforms are **mutually exclusive**: selecting a shortcut auto-disables the concrete platforms it covers (and any broader selection), avoiding redundancy.
 
 | Shortcut | Expands to |
 | --- | --- |

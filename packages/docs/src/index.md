@@ -25,13 +25,13 @@ hero:
 features:
   - icon: 🧩
     title: 交互式创建
-    details: 项目名 → 脚本语言 → CSS 预处理器 → 主题 → 状态管理 → 路由 → 平台 → 功能 → 包管理器。
+    details: 项目名 → 脚本语言 → CSS 预处理器 → 状态管理 → 路由 → 平台 → 功能 → 包管理器。
   - icon: 🌐
     title: 多平台按需
-    details: 支持全部 uni-app 平台，「全端 / 小程序(全部) / 快应用(全部)」分组快捷勾选。
+    details: 支持全部 uni-app 平台，「全端 / 小程序(全部) / 快应用(全部)」分组快捷勾选，与具体项互斥自动禁用。
   - icon: 🎨
-    title: 多套内置主题
-    details: 默认紫 / 清新蓝 / 自然绿 / 温暖橙，Sass / Less / Stylus / 原生 CSS 均可全局生效。
+    title: 内置主题（可选）
+    details: 作为可选功能勾选后挑色板，默认紫 / 清新蓝 / 自然绿 / 温暖橙，Sass / Less / Stylus / 原生 CSS 均可全局生效。
   - icon: 🗃️
     title: 状态管理
     details: Pinia / Vuex 二选一，均支持状态持久化，自动注入主入口并生成 store 示例。

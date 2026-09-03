@@ -74,11 +74,11 @@ Supported fields (all optional):
 | --- | --- |
 | `useTypeScript` | `true` / `false` |
 | `css` | `scss` / `less` / `stylus` / `none` |
-| `theme` | `default` / `blue` / `green` / `orange` / `none` |
+| `theme` | Default palette for the built-in theme: `default` / `blue` / `green` / `orange` (used as the palette initial when the "Built-in theme" feature is checked) |
 | `state` | `pinia` / `pinia-persist` / `vuex` / `vuex-persist` / `none` |
 | `router` | `none` / `router` / `router-generate` / `pages` / `uni` |
 | `platform` | platform id array, e.g. `["mp-weixin", "h5"]` |
-| `features` | `request` / `uni-ui` |
+| `features` | `theme` / `request` / `uni-ui` |
 | `packageManager` | `npm` / `yarn` / `pnpm` |
 | `installDeps` | `true` / `false` |
 

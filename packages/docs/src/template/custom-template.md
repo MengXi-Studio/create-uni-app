@@ -74,11 +74,11 @@
 | ---------------- | ------------------------------------------------------------ |
 | `useTypeScript`  | `true` / `false`                                             |
 | `css`            | `scss` / `less` / `stylus` / `none`                          |
-| `theme`          | `default` / `blue` / `green` / `orange` / `none`             |
+| `theme`          | 内置主题的默认色板：`default` / `blue` / `green` / `orange`（勾选「内置主题」功能时作为色板初始值） |
 | `state`          | `pinia` / `pinia-persist` / `vuex` / `vuex-persist` / `none` |
 | `router`         | `none` / `router` / `router-generate` / `pages` / `uni`      |
 | `platform`       | 平台标识数组，如 `["mp-weixin", "h5"]`                               |
-| `features`       | `request` / `uni-ui`                                         |
+| `features`       | `theme` / `request` / `uni-ui`                               |
 | `packageManager` | `npm` / `yarn` / `pnpm`                                      |
 | `installDeps`    | `true` / `false`                                             |
 

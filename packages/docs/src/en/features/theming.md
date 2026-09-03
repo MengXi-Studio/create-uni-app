@@ -13,9 +13,11 @@ uni-app's global style injection differs by preprocessor: Sass uses the official
 | `stylus` | — | Vite `preprocessorOptions.additionalData` |
 | `none` | Plain CSS | CSS custom properties (`--var`), main entry imports `theme.css` |
 
-Selecting a preprocessor also injects the matching compile dependency (`sass` / `less` / `stylus`) — not installed when unused.
+Selecting a preprocessor also injects the matching compile dependency (`sass` / `less` / `stylus`) — not installed when unused. `uni.scss` serves only the scss scheme and is not generated for Less / Stylus / plain CSS.
 
 ## Built-in Themes
+
+The built-in theme is an **optional feature**: check "Built-in theme" in the optional-features multi-select, then pick a palette. If unchecked, no theme files are generated.
 
 Four theme palettes:
 
