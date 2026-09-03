@@ -21,20 +21,20 @@
 
 ## 特性
 
-- **交互式创建**：项目名 → 脚本语言 → CSS 预处理器 → 内置主题 → 状态管理 → 路由方案 → 目标平台 → 可选功能 → 包管理器，一步到位
+- **交互式创建**：项目名 → 脚本语言 → CSS 预处理器 → 状态管理 → 路由方案 → 目标平台 → 可选功能 → 包管理器，一步到位
 
-- **多平台按需**：支持全部 uni-app 平台，提供「全部端 / 小程序(全部) / 快应用(全部)」分组快捷勾选
+- **多平台按需**：支持全部 uni-app 平台，提供「全部端 / 小程序(全部) / 快应用(全部)」分组快捷勾选；选中分组时其余重选项自动禁用，避免冗余
 
 - **TS / JS 可选**：TS 生成 `tsconfig.json` 与 `vite.config.ts`，JS 生成 `jsconfig.json` 与 `vite.config.js`，自动适配构建配置
 
-- **多套内置主题**：默认紫 / 清新蓝 / 自然绿 / 温暖橙，兼容 Sass / Less / Stylus / 原生 CSS
+- **内置主题（可选）**：归入可选功能，勾选后挑选色板（默认紫 / 清新蓝 / 自然绿 / 温暖橙），兼容 Sass / Less / Stylus / 原生 CSS
 
 - **状态管理**：Pinia / Vuex 二选一，均可选持久化；统一在 `stores/` 目录封装（Pinia 由 `createPiniaStore()` 创建并注册插件），主入口保持干净
 
 - **路由 / 页面方案**：uni-router、generateRouter、generatePages、generateUni 互斥可选；纯 uni-router 生成 `src/router` 目录——`index` 创建实例、`guards` 内置 `beforeEach` / `afterEach` 全局守卫示例，主入口只
   `import router` + `app.use(router)`
 
-- **可选功能**：请求封装 + 登录鉴权、uni-ui 组件库（easycom 按需引入）
+- **可选功能**：内置主题、请求封装 + 登录鉴权、uni-ui 组件库（easycom 按需引入）；uni-ui 依赖 Sass/Scss，未选时自动禁用
 
 - **规范输出**：依赖按字母序标准化；uni-app 运行时版本默认对齐官方 Vue3 通道，可用 `npx @dcloudio/uvm@latest` 一键同步最新
 

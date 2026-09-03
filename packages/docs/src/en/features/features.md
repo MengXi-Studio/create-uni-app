@@ -31,6 +31,12 @@ Integrates `@dcloudio/uni-ui` via **easycom** on-demand in `pages.json`:
 
 Generates a `src/pages/index` example page. Using `uni-*` tags in templates auto-imports on demand — no manual imports.
 
+> uni-ui components use scss internally — this option is only selectable when the CSS preprocessor is Sass/Scss, and is auto-disabled otherwise.
+
+## Built-in Theme (optional)
+
+Check it in the optional features to pick a palette (Default Purple / Blue / Green / Orange) next; theme variables are generated per preprocessor — see [Theming](./theming).
+
 ## On-Demand Dependencies
 
 | Feature | dependencies | Description |

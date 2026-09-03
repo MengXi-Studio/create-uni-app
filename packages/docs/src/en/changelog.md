@@ -2,6 +2,24 @@
 
 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [1.2.0] - 2026-09-03
+
+> Interaction polish: optional built-in theme, mutually exclusive platform groups, and uni-ui tied to the preprocessor.
+
+### ✨ New Features
+
+#### Interaction
+
+- Built-in theme is now an **optional feature** rather than a required step: it lives in the "optional features" multi-select, and you pick a palette (Default Purple / Blue / Green / Orange) after enabling it
+- **Mutually exclusive platform groups**: selecting "All platforms / Mini programs (all) / Quick Apps (all)" auto-disables the concrete platforms they cover
+- **uni-ui tied to the preprocessor**: the option is auto-disabled with a hint when Sass/Scss isn't selected
+
+### 🐛 Fixes
+
+- `uni.scss` is no longer generated for non-scss schemes (Less / Stylus / plain CSS)
+
+---
+
 ## [1.1.0] - 2026-09-01
 
 > Structured generation: state management, the router instance and its guards are split into separate files so the entry stays clean; TS projects use `vite.config.ts`.

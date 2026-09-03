@@ -2,9 +2,9 @@
  * 交互式问答模块
  *
  * 交互顺序（技术栈 → 范围 → 收尾）：
- * 1. 项目名 → 2. 脚本语言(TS/JS) → 3. CSS 预处理器 → 4. 内置主题
- * → 5. 状态管理 → 6. 路由方案 → 7. 目标平台(多选) → 8. 可选功能(多选)
- * → 9. 包管理器 → 10. 是否自动安装
+ * 1. 项目名 → 2. 脚本语言(TS/JS) → 3. CSS 预处理器 → 4. 状态管理
+ * → 5. 路由方案 → 6. 目标平台(多选) → 7. 可选功能(多选，含内置主题，勾选后选色板)
+ * → 8. 包管理器 → 9. 是否自动安装
  *
  * 复刻 create-taro 的交互体验；支持由模板的 template.json 预填默认值。
  */
@@ -20,6 +20,7 @@ type PartialAnswers = {
 	useTypeScript?: boolean
 	css: CssPreprocessor
 	theme: ThemeOption
+	themeColor?: ThemeOption
 	state: StateManager
 	router: RouterScheme
 	features: Feature[]
@@ -62,19 +63,84 @@ const PLATFORM_CHOICES: { title: string; value: PlatformChoice; description: str
 	{ title: '快应用（联盟）', value: 'quickapp-webview-union', description: '快应用联盟' }
 ]
 
-/** 可选功能的展示列表（状态管理、路由方案均已在独立步骤中选择） */
-const FEATURE_CHOICES: { title: string; value: Feature; description: string }[] = [
-	{
-		title: '请求封装 + 登录鉴权',
-		value: Feature.Request,
-		description: '统一拦截、token 与登录守卫'
-	},
-	{
-		title: 'uni-ui 组件库',
-		value: Feature.UniUi,
-		description: '配置 easycom 按需引入'
+/** 小程序具体平台（被「小程序(全部)」快捷项覆盖时禁用） */
+const MP_SPECIFIC: string[] = ['mp-weixin', 'mp-alipay', 'mp-baidu', 'mp-toutiao', 'mp-qq', 'mp-lark', 'mp-jd', 'mp-kuaishou', 'mp-xhs']
+
+/** 快应用具体平台（被「快应用(全部)」快捷项覆盖时禁用） */
+const QA_SPECIFIC: string[] = ['quickapp-webview', 'quickapp-webview-huawei', 'quickapp-webview-union']
+
+/**
+ * 计算平台选项的禁用状态（分组快捷项与具体项互斥、最高层级优先）：
+ *  - 选中「全部端」→ 其余全部禁用；选中任一具体/分组项 → 禁用「全部端」
+ *  - 选中「小程序(全部)」→ 禁用各小程序具体项；反之选中具体小程序 → 禁用该快捷项
+ *  - 选中「快应用(全部)」→ 禁用各快应用具体项；反之同理
+ * 被覆盖的已选项同时取消勾选，避免结果冗余。
+ *
+ * @param value 由 prompts 维护的选项列表（含 value / selected / disabled）
+ */
+function recalcPlatformDisabled(value: { value: PlatformChoice; selected?: boolean; disabled?: boolean }[]): void {
+	const sel = value.filter(v => v.selected).map(v => String(v.value))
+	const hasMulti = sel.includes('multi')
+	const hasMpGroup = sel.includes('mp-group')
+	const hasQaGroup = sel.includes('quickapp-group')
+	const hasAnySpecific = sel.some(v => v !== 'multi' && v !== 'mp-group' && v !== 'quickapp-group')
+	const hasMpSpecific = sel.some(v => MP_SPECIFIC.includes(v))
+	const hasQaSpecific = sel.some(v => QA_SPECIFIC.includes(v))
+
+	for (const v of value) {
+		const val = String(v.value)
+		let disabled = false
+		if (hasMulti && val !== 'multi') disabled = true
+		else if (!hasMulti && hasAnySpecific && val === 'multi') disabled = true
+
+		if (hasMpGroup && !hasMulti && MP_SPECIFIC.includes(val)) disabled = true
+		else if (!hasMpGroup && hasMpSpecific && val === 'mp-group') disabled = true
+
+		if (hasQaGroup && !hasMulti && QA_SPECIFIC.includes(val)) disabled = true
+		else if (!hasQaGroup && hasQaSpecific && val === 'quickapp-group') disabled = true
+
+		// 被更高层级覆盖的项，若之前已勾选则取消勾选，避免结果冗余
+		if (disabled && v.selected) v.selected = false
+		v.disabled = disabled
 	}
-]
+}
+
+/**
+ * 可选功能的展示列表（状态管理、路由方案均已在独立步骤中选择）。
+ * uni-ui 组件内部样式使用 scss，未选 Sass/Scss 预处理器时禁用该选项。
+ *
+ * @param css 当前选择的 CSS 预处理器
+ * @returns 功能选项列表
+ */
+function buildFeatureChoices(css: CssPreprocessor): { title: string; value: Feature; description: string; disabled?: boolean }[] {
+	const uniUi: { title: string; value: Feature; description: string; disabled?: boolean } =
+		css === 'scss'
+			? {
+					title: 'uni-ui 组件库',
+					value: Feature.UniUi,
+					description: '配置 easycom 按需引入'
+				}
+			: {
+					title: 'uni-ui 组件库',
+					value: Feature.UniUi,
+					description: '组件内部使用 scss，需将 CSS 预处理器改为 Sass/Scss 后启用',
+					disabled: true
+				}
+
+	return [
+		{
+			title: '内置主题',
+			value: Feature.Theme,
+			description: '全局混入主题变量，勾选后可选色板（默认紫/清新蓝/自然绿/温暖橙）'
+		},
+		{
+			title: '请求封装 + 登录鉴权',
+			value: Feature.Request,
+			description: '统一拦截、token 与登录守卫'
+		},
+		uniUi
+	]
+}
 
 /** 路由 / 页面生成方案的展示列表（互斥选一） */
 const ROUTER_CHOICES: { title: string; value: RouterScheme; description?: string }[] = [
@@ -144,9 +210,8 @@ const TS_CHOICES: { title: string; value: boolean; description?: string }[] = [
 	}
 ]
 
-/** 内置主题的展示列表（多套主流审美配色） */
+/** 内置主题的色板列表（勾选「内置主题」后用于挑选具体色板） */
 const THEME_CHOICES: { title: string; value: ThemeOption; description: string }[] = [
-	{ title: '不使用内置主题', value: 'none', description: '仅保留最基础的全局样式' },
 	{ title: '默认紫', value: Theme.Default, description: '品牌紫色 #4b3fe3' },
 	{ title: '清新蓝', value: Theme.Blue, description: '冷静蓝 #2563eb' },
 	{ title: '自然绿', value: Theme.Green, description: '生态绿 #059669' },
@@ -207,13 +272,6 @@ export async function askQuestions(initialName?: string, presets?: QuestionPrese
 		},
 		{
 			type: 'select',
-			name: 'theme',
-			message: '选择内置主题（全局混入主题变量；原生 CSS 使用 CSS 变量）：',
-			initial: presets ? choiceIndex(THEME_CHOICES, presets.theme ?? Theme.Default) : 1,
-			choices: THEME_CHOICES
-		},
-		{
-			type: 'select',
 			name: 'state',
 			message: '选择状态管理方案：',
 			initial: presets ? choiceIndex(STATE_CHOICES, presets.state ?? 'pinia-persist') : 0,
@@ -241,7 +299,7 @@ export async function askQuestions(initialName?: string, presets?: QuestionPrese
 			message: '选择需要集成的功能（空格勾选，回车确认）：',
 			hint: ' 空格选择，回车继续',
 			instructions: false,
-			choices: FEATURE_CHOICES,
+			choices: buildFeatureChoices('scss'),
 			initial: presets?.features ?? []
 		},
 		{
@@ -279,12 +337,51 @@ export async function askQuestions(initialName?: string, presets?: QuestionPrese
 		if (name === 'projectName' && answers.projectName) {
 			continue
 		}
-		const response = await prompts(question as prompts.PromptObject)
+		// features 步骤的 uni-ui 选项是否可选取决于 css，需按已选预处理器实时生成 choices
+		// 且当预设与 css 冲突（如 less + uni-ui）时，从默认勾选中剔除禁用的 uni-ui
+		let resolved: any
+		if (name === 'features') {
+			resolved = {
+				...(question as prompts.PromptObject),
+				choices: buildFeatureChoices(answers.css),
+				initial: (question.initial as unknown as Feature[] | undefined)?.filter(f => answers.css === 'scss' || f !== Feature.UniUi) ?? []
+			}
+		} else if (name === 'platform') {
+			// 分组快捷项与具体项互斥：每次渲染前按当前选中态刷新禁用状态
+			// 注意需用普通方法而非箭头函数，prompts 会以 .bind(实例) 调用 onRender
+			resolved = {
+				...(question as prompts.PromptObject),
+				onRender() {
+					const v = (this as unknown as { value: { value: PlatformChoice; selected?: boolean; disabled?: boolean }[] }).value
+					recalcPlatformDisabled(v)
+				}
+			}
+		}
+		const response = await prompts((resolved ?? question) as prompts.PromptObject)
 		if (response[name] === undefined) {
 			state.aborted = true
 			break
 		}
 		;(answers as Record<string, unknown>)[name] = response[name]
+
+		// 内置主题作为可选功能：勾选「内置主题」后紧接选择具体色板
+		if (name === 'features' && (answers.features ?? []).includes(Feature.Theme)) {
+			const paletteResponse = await prompts({
+				type: 'select',
+				name: 'themeColor',
+				message: '选择主题色板：',
+				initial:
+					presets && presets.theme && presets.theme !== 'none'
+						? choiceIndex(THEME_CHOICES, presets.theme)
+						: 0,
+				choices: THEME_CHOICES
+			} as prompts.PromptObject)
+			if (paletteResponse.themeColor === undefined) {
+				state.aborted = true
+				break
+			}
+			answers.themeColor = paletteResponse.themeColor
+		}
 	}
 
 	if (state.aborted) {
@@ -299,10 +396,11 @@ export async function askQuestions(initialName?: string, presets?: QuestionPrese
 		platform: answers.platform ?? [],
 		useTypeScript: answers.useTypeScript ?? true,
 		css: answers.css,
-		theme: answers.css === 'none' ? 'none' : (answers.theme ?? Theme.Default),
+		// 内置主题由功能勾选决定；勾选后取所选色板，未勾选则不使用
+		theme: (answers.features ?? []).includes(Feature.Theme) ? answers.themeColor ?? Theme.Default : 'none',
 		state: answers.state ?? 'pinia-persist',
 		router: answers.router ?? 'none',
-		features: answers.features ?? [],
+		features: (answers.features ?? []).filter(f => f !== Feature.Theme),
 		packageManager: answers.packageManager,
 		installDeps: answers.installDeps
 	} satisfies CreateOptions

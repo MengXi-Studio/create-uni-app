@@ -5,5 +5,7 @@ export enum Feature {
 	/** 基于 uni.request 的统一请求封装与登录鉴权 */
 	Request = 'request',
 	/** uni-ui 组件库 */
-	UniUi = 'uni-ui'
+	UniUi = 'uni-ui',
+	/** 内置主题（勾选后需再选具体色板） */
+	Theme = 'theme'
 }

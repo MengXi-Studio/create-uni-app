@@ -13,9 +13,11 @@ uni-app 的全局样式注入方式因预处理器而异：Sass 的 `uni.scss` �
 | `stylus` | — | Vite `preprocessorOptions.additionalData` |
 | `none` | 原生 CSS | CSS 自定义属性（`--var`），主入口 import `theme.css` |
 
-选择预处理器的同时会注入对应编译依赖（`sass` / `less` / `stylus`），不选用不装。
+选择预处理器的同时会注入对应编译依赖（`sass` / `less` / `stylus`），不选用不装。`uni.scss` 仅服务于 scss 方案，选 Less / Stylus / 原生 CSS 时不生成该文件。
 
 ## 内置主题
+
+内置主题属于**可选功能**：在"可选功能"多选中勾选「内置主题」后，再挑选一套色板。未勾选则项目不含主题文件。
 
 提供 4 套主题色板：
 
