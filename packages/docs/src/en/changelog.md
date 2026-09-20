@@ -2,6 +2,18 @@
 
 This changelog follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/).
 
+## [1.2.1] - 2026-09-20
+
+> Windows compatibility fixes: dependency auto-install and the H5 entry file.
+
+### 🐛 Fixes
+
+- **Dependency auto-install failed on Windows** (`spawnSync pnpm ENOENT`): pnpm / npm / yarn are `.cmd` shims on Windows; they are now launched through a shell, so auto-install works again
+
+- **H5 dev failed with `Failed to load url /main.ts`**: the generated project's `index.html` entry path is corrected to `/src/main.${ext}`, matching where the entry file is actually generated (`src/`)
+
+---
+
 ## [1.2.0] - 2026-09-03
 
 > Interaction polish: optional built-in theme, mutually exclusive platform groups, and uni-ui tied to the preprocessor.
