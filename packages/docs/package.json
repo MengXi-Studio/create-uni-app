@@ -1,6 +1,6 @@
 {
 	"name": "@meng-xi/create-uni-app-docs",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"private": true,
 	"description": "@meng-xi/create-uni-app 使用文档",
 	"type": "module",
