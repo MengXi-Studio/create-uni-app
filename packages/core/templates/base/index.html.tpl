@@ -10,6 +10,6 @@
   </head>
   <body>
     <div id="app"></div>
-    <script type="module" src="/main.${ext}"></script>
+    <script type="module" src="/src/main.${ext}"></script>
   </body>
 </html>

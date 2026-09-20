@@ -24,9 +24,9 @@ const ROUTER_DEPS: Record<'router' | 'router-generate' | 'uni', Record<string, s
  *  - pages：依赖 vite-plugin（generatePages）
  */
 const ROUTER_DEV_DEPS: Record<'router-generate' | 'pages' | 'uni', Record<string, string>> = {
-	'router-generate': { '@meng-xi/vite-plugin': '^1.4.0' },
-	pages: { '@meng-xi/vite-plugin': '^1.4.0' },
-	uni: { '@meng-xi/vite-plugin': '^1.4.0' }
+	'router-generate': { '@meng-xi/vite-plugin': '^1.4.1' },
+	pages: { '@meng-xi/vite-plugin': '^1.4.1' },
+	uni: { '@meng-xi/vite-plugin': '^1.4.1' }
 }
 
 /** 路由方案对应的 vite 生成插件名（router 方案为纯 uni-router，不注入插件） */

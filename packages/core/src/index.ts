@@ -43,7 +43,8 @@ function isNonEmpty(dir: string): boolean {
  */
 function installDependencies(dir: string, packageManager: CreateOptions['packageManager']): void {
 	const args = packageManager === 'yarn' || packageManager === 'pnpm' ? [] : ['install']
-	const result = spawnSync(packageManager, args, { cwd: dir, stdio: 'inherit' })
+	// Windows 下 pnpm/yarn/npm 是 .cmd 脚本，必须经过 shell 才能启动
+	const result = spawnSync(packageManager, args, { cwd: dir, stdio: 'inherit', shell: process.platform === 'win32' })
 	if (result.status === 0) return
 
 	// 保留真实失败原因，避免只给一句笼统提示

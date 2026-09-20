@@ -2,6 +2,18 @@
 
 本项目的变更记录遵循 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/) 与 [语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.2.1] - 2026-09-20
+
+> Windows 兼容修复：依赖自动安装与 H5 入口文件。
+
+### 🐛 修复
+
+- **Windows 下依赖自动安装失败**（报 `spawnSync pnpm ENOENT`）：pnpm / npm / yarn 在 Windows 上是 `.cmd` 脚本，现改为经 shell 启动，自动安装恢复正常
+
+- **H5 运行报 `Failed to load url /main.ts`**：生成项目 `index.html` 的入口路径修正为 `/src/main.${ext}`，与实际生成位置（`src/`）保持一致
+
+---
+
 ## [1.2.0] - 2026-09-03
 
 > 交互体验优化：内置主题可选、目标平台分组互斥、uni-ui 按预处理器联动。
